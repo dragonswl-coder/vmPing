@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:vmPing.UI"
         mc:Ignorable="d"
-        Title="New Configuration"
+        Title="新建配置"
         Height="Auto"
         Width="520"
         SizeToContent="Height"
@@ -36,13 +36,13 @@
                            FontSize="14"
                            Foreground="#202020"
                            TextWrapping="Wrap"
-                           Text="To save your settings, a new configuration file is needed."/>
+                           Text="要保存设置，需要新建一个配置文件。"/>
                 <TextBlock DockPanel.Dock="Top"
                            FontSize="14"
                            Foreground="#202020"
                            TextWrapping="Wrap"
                            Margin="0,10,0,1"
-                           Text="The file will be stored here:"/>
+                            Text="文件将保存在此处：" />
                 <!-- File path -->
                 <TextBlock x:Name="FilePath"
                            DockPanel.Dock="Top"
@@ -56,7 +56,7 @@
                            FontSize="12"
                            Foreground="#888"
                            TextWrapping="Wrap">
-                    Select 'Portable mode' to save your configuration alongside vmPing.exe.
+                    选择"便携模式"可将配置文件保存在 vmPing.exe 所在目录。
                 </TextBlock>
             </DockPanel>
         </Grid>
@@ -70,19 +70,19 @@
                           Padding="5,0,10,0"
                           Foreground="#111"
                           Click="PortableMode_Click"
-                          Content="Portable mode"/>
+                          Content="便携模式"/>
                 <!-- Buttons -->
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Style="{StaticResource ButtonStandardStyle}"
                             Click="Save_Click"
                             Width="100"
                             IsDefault="True"
-                            Content="Save" />
+                            Content="保存" />
                     <Button Style="{StaticResource ButtonStandardStyle}"
                             Margin="8,0,0,0"
                             Width="100"
                             IsCancel="True"
-                            Content="Cancel" />
+                            Content="取消" />
                 </StackPanel>
             </DockPanel>
         </Border>

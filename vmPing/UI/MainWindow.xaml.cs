@@ -742,11 +742,11 @@ namespace vmPing.UI
                 {
                     // Build context menu for tray icon.
                     System.Windows.Forms.ContextMenuStrip menuStrip = new System.Windows.Forms.ContextMenuStrip();
-                    System.Windows.Forms.ToolStripMenuItem menuOptions = new System.Windows.Forms.ToolStripMenuItem("Options");
+                    System.Windows.Forms.ToolStripMenuItem menuOptions = new System.Windows.Forms.ToolStripMenuItem("选项");
                     menuOptions.Click += (s, args) => OptionsExecute(null, null);
-                    System.Windows.Forms.ToolStripMenuItem menuStatusHistory = new System.Windows.Forms.ToolStripMenuItem("Status History");
+                    System.Windows.Forms.ToolStripMenuItem menuStatusHistory = new System.Windows.Forms.ToolStripMenuItem("状态历史");
                     menuStatusHistory.Click += (s, args) => StatusHistoryExecute(null, null);
-                    System.Windows.Forms.ToolStripMenuItem menuExit = new System.Windows.Forms.ToolStripMenuItem("Exit vmPing");
+                    System.Windows.Forms.ToolStripMenuItem menuExit = new System.Windows.Forms.ToolStripMenuItem("退出 vmPing");
                     menuExit.Click += (s, args) => Application.Current.Shutdown();
 
                     menuStrip.Items.Add(menuOptions);

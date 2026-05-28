@@ -18,12 +18,12 @@ namespace vmPing.UI
 
             Version version = typeof(MainWindow).Assembly.GetName().Version;
             Version.Inlines.Clear();
-            Version.Inlines.Add(new Run($"Version: {version.Major}.{version.Minor}.{version.Build}"));
+            Version.Inlines.Add(new Run($"版本: {version.Major}.{version.Minor}.{version.Build}"));
 
             // Generate copyright text based on the current year.
             //Copyright.Text = $"Copyright \u00a9 {DateTime.Now.Year.ToString()} Ryan Smith";
             Copyright.Inlines.Clear();
-            Copyright.Inlines.Add(new Run($"Copyright \u00a9 {DateTime.Now.Year.ToString()} Ryan Smith"));
+            Copyright.Inlines.Add(new Run($"版权所有 \u00a9 {DateTime.Now.Year.ToString()} Ryan Smith"));
 
             // Set initial focus to scrollviewer.  That way you can scroll the help window with the keyboard
             // without having to first click in the window.

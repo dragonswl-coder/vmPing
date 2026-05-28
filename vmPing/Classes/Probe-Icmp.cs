@@ -15,7 +15,7 @@ namespace vmPing.Classes
             InitializeProbe();
 
             await Application.Current.Dispatcher.BeginInvoke(
-                new Action(() => AddHistory($"*** Pinging {Hostname}:")));
+                new Action(() => AddHistory($"*** 正在 Ping {Hostname}:")));
 
             if (await IsHostInvalid(Hostname, cancellationToken))
             {
@@ -61,7 +61,7 @@ namespace vmPing.Classes
                             // Check if status changed from down to up.
                             if (Status == ProbeStatus.Down)
                             {
-                                OnStatusChange(ProbeStatus.Up, "up");
+                                OnStatusChange(ProbeStatus.Up, "在线");
                             }
 
                             // Update minimum RTT.
@@ -91,7 +91,7 @@ namespace vmPing.Classes
                                 {
                                     if (HighLatencyCount >= ApplicationOptions.HighLatencyAlertTiggerCount)
                                     {
-                                        OnStatusChange(ProbeStatus.LatencyHigh, "high latency");
+                                        OnStatusChange(ProbeStatus.LatencyHigh, "高延迟");
                                     }
                                 }
                             }
@@ -107,7 +107,7 @@ namespace vmPing.Classes
                                 {
                                     if (HighLatencyCount <= 0)
                                     {
-                                        OnStatusChange(ProbeStatus.LatencyNormal, "normal latency");
+                                        OnStatusChange(ProbeStatus.LatencyNormal, "正常延迟");
                                         Status = ProbeStatus.Up;
                                     }
                                 }
@@ -141,7 +141,7 @@ namespace vmPing.Classes
                                 IndeterminateCount >= ApplicationOptions.AlertThreshold)
                             {
                                 Status = ProbeStatus.Down;
-                                OnStatusChange(ProbeStatus.Down, "down");
+                                OnStatusChange(ProbeStatus.Down, "离线");
                             }
                         }
 
@@ -169,7 +169,7 @@ namespace vmPing.Classes
                         if (Status != ProbeStatus.Down)
                         {
                             Status = ProbeStatus.Down;
-                            OnStatusChange(ProbeStatus.Down, "error");
+                            OnStatusChange(ProbeStatus.Down, "错误");
                         }
 
                         // Update output.
@@ -222,23 +222,23 @@ namespace vmPing.Classes
                 switch (pingReply.Status)
                 {
                     case IPStatus.Success:
-                        sb.Append("Reply from ");
+                        sb.Append("来自 ");
                         sb.Append(pingReply.Address.ToString());
                         sb.Append(pingReply.RoundtripTime < 1
-                            ? "  [<1ms]"
-                            : $"  [{pingReply.RoundtripTime} ms]");
+                            ? "  [<1毫秒]"
+                            : $"  [{pingReply.RoundtripTime} 毫秒]");
                         break;
                     case IPStatus.DestinationHostUnreachable:
-                        sb.Append("Reply  [Host unreachable]");
+                        sb.Append("回复  [主机不可达]");
                         break;
                     case IPStatus.DestinationNetworkUnreachable:
-                        sb.Append("Reply  [Network unreachable]");
+                        sb.Append("回复  [网络不可达]");
                         break;
                     case IPStatus.DestinationUnreachable:
-                        sb.Append("Reply  [Unreachable]");
+                        sb.Append("回复  [不可达]");
                         break;
                     case IPStatus.TimedOut:
-                        sb.Append("Request timed out.");
+                        sb.Append("请求超时。");
                         break;
                     default:
                         sb.Append(pingReply.Status.ToString());
@@ -248,7 +248,7 @@ namespace vmPing.Classes
             else
             {
                 sb.Append(ex.InnerException is SocketException
-                    ? "Unable to resolve hostname."
+                    ? "无法解析主机名。"
                     : ex.Message);
             }
 

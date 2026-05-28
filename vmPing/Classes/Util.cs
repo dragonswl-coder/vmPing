@@ -64,8 +64,8 @@ namespace vmPing.Classes
         {
             using (MailMessage message = new MailMessage())
             {
-                message.Subject = "[vmPing] Test Email Notification";
-                message.Body = $"This is a test email sent by vmPing on {DateTime.Now:F}";
+                message.Subject = "[vmPing] 测试邮件通知";
+                message.Body = $"这是 vmPing 于 {DateTime.Now:F} 发送的测试邮件";
                 message.From = new MailAddress(fromAddress, "vmPing");
                 message.To.Add(recipientAddress.Replace(";", ","));
 
@@ -162,7 +162,7 @@ namespace vmPing.Classes
             }
             catch (Exception ex)
             {
-                throw new Exception("Error decrypting value: " + ex.Message);
+                throw new Exception("解密值时出错：" + ex.Message);
             }
         }
 

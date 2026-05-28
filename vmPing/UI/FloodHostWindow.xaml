@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:vmPing.UI"
         xmlns:classes="clr-namespace:vmPing.Classes"
-        Title="vmPing - Flood Host"
+        Title="vmPing - 泛洪测试"
         Height="250"
         Width="400"
         ResizeMode="CanMinimize"
@@ -11,7 +11,7 @@
 
     <Window.Resources>
         <!-- Value converters -->
-        <classes:BoolToStringConverter x:Key="BoolToStringConverter" FalseValue="Flood Host" TrueValue="Stop Flood"/>
+        <classes:BoolToStringConverter x:Key="BoolToStringConverter" FalseValue="泛洪测试" TrueValue="停止泛洪"/>
         <classes:BooleanToHiddenVisibilityConverter x:Key="BooleanToHiddenVisibilityConverter" />
         <classes:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <classes:BooleanToImageConverter x:Key="BooleanToImageConverter" />
@@ -129,7 +129,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Packets Sent:"
+                <TextBlock Grid.Column="0" Text="已发送数据包："
                            HorizontalAlignment="Right" VerticalAlignment="Center"
                            Margin="0,0,15,0"
                            Foreground="#93a1a1"
@@ -145,7 +145,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Packets Received:"
+                <TextBlock Grid.Column="0" Text="已接收数据包："
                            HorizontalAlignment="Right" VerticalAlignment="Center"
                            Margin="0,0,15,0"
                            Foreground="#93a1a1"
@@ -161,7 +161,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Packets Lost:"
+                <TextBlock Grid.Column="0" Text="丢失数据包："
                            HorizontalAlignment="Right" VerticalAlignment="Center"
                            Margin="0,0,15,0"
                            Foreground="#93a1a1"
@@ -173,7 +173,7 @@
             </Grid>
         </Grid>
 
-        <TextBlock Grid.Row="2" Text="Flood in progress..."
+        <TextBlock Grid.Row="2" Text="泛洪进行中..."
                    Name="tbStatus"
                    Margin="0,7" HorizontalAlignment="Center"
                    Foreground="#657b83"
@@ -214,8 +214,8 @@
                Padding="40,0"
                FontSize="14">
             <TextBlock TextWrapping="Wrap" TextAlignment="Justify">
-                This tool will send a continuous stream of ICMP ping packets to the destination host.
-                It typically will not generate any more than 32 kilobytes per second of network traffic.
+                此工具将持续向目标主机发送 ICMP Ping 数据包。
+                通常每秒不会产生超过 32 KB 的网络流量。
             </TextBlock>
         </Label>
         

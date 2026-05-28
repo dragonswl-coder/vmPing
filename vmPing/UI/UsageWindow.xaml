@@ -52,58 +52,58 @@
                 </StackPanel>
             </StackPanel>
             <TextBlock Margin="0,20,0,0"
-                       Text="Command line usage:"
+                       Text="命令行用法："
                        FontSize="14"
                        FontWeight="SemiBold"/>
-            <TextBlock Text="vmPing [OPTIONS] [HOSTNAME...] [FILE...]"/>
+            <TextBlock Text="vmPing [选项] [主机名...] [文件...]"/>
             <TextBlock Margin="0,20,0,0"
-                       Text="Options:"
+                       Text="选项："
                        FontSize="14"
                        FontWeight="SemiBold"/>
             <DockPanel>
                 <TextBlock Style="{StaticResource Arg}"
-                           Text="-i &lt;interval>"/>
+                           Text="-i &lt;间隔>"/>
                 <StackPanel>
                     <TextBlock Style="{StaticResource Desc}"
-                               Text="Specifies the interval, in seconds, between pings."/>
+                               Text="指定 Ping 之间的间隔时间（秒）。"/>
                     <TextBlock Style="{StaticResource Desc}"
-                               Text="Valid range: 1 to 86400 (1 second to 24 hours)."/>
+                               Text="有效范围：1 到 86400（1 秒到 24 小时）。"/>
                 </StackPanel>
             </DockPanel>
             <DockPanel Margin="0,5,0,0">
                 <TextBlock Style="{StaticResource Arg}"
-                           Text="-w &lt;timeout>"/>
+                           Text="-w &lt;超时>"/>
                 <StackPanel>
                     <TextBlock Style="{StaticResource Desc}"
-                               Text="Set the timeout, in seconds, for each ping request."/>
+                               Text="设置每次 Ping 请求的超时时间（秒）。"/>
                     <TextBlock Style="{StaticResource Desc}"
-                               Text="Valid range: 1 to 60 seconds."/>
+                               Text="有效范围：1 到 60 秒。"/>
                 </StackPanel>
             </DockPanel>
             <DockPanel Margin="0,5,0,0">
                 <TextBlock Style="{StaticResource Arg}"
                            Text="-minimized"/>
                 <TextBlock Style="{StaticResource Desc}"
-                           Text="Start the application in a minimized state."/>
+                               Text="以最小化状态启动应用程序。"/>
             </DockPanel>
             <DockPanel Margin="0,5,0,0">
                 <TextBlock Style="{StaticResource Arg}"
                            Text="&lt;hostname>"/>
                 <StackPanel>
                     <TextBlock Style="{StaticResource Desc}"
-                               Text="A hostname or IP address to ping."/>
+                               Text="要 Ping 的主机名或 IP 地址。"/>
                     <TextBlock Style="{StaticResource Desc}"
-                               Text="You can provide multiple hostnames."/>
+                               Text="可提供多个主机名。"/>
                 </StackPanel>
             </DockPanel>
             <DockPanel Margin="0,5,0,0">
                 <TextBlock Style="{StaticResource Arg}"
                            Text="&lt;file>"/>
                 <TextBlock Style="{StaticResource Desc}"
-                           Text="The path to a text file containing hostnames or IP addresses to ping. Wrap the path in quotes if it contains spaces. You can provide multiple files."/>
+                           Text="包含要 Ping 的主机名或 IP 地址的文本文件路径。如果路径包含空格，请用引号括起来。可提供多个文件。"/>
             </DockPanel>
             <TextBlock Margin="0,20,0,0"
-                       Text="Examples:"
+                       Text="示例："
                        FontSize="14"
                        FontWeight="SemiBold"/>
             <TextBlock Text="vmPing.exe -i 5 -w 2 192.168.0.1 172.16.50.1 10.2.0.32"/>
@@ -119,7 +119,7 @@
                         Width="100"
                         IsCancel="True"
                         IsDefault="True"
-                        Content="OK"/>
+                        Content="确定"/>
             </StackPanel>
         </Border>
     </Grid>

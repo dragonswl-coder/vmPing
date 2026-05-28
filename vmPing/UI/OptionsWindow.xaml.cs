@@ -47,7 +47,7 @@ namespace vmPing.UI
             DialogWindow errorWindow;
             if (isWarning == true)
             {
-                errorWindow = DialogWindow.WarningWindow(message, "Save");
+                errorWindow = DialogWindow.WarningWindow(message, "保存");
             }
             else
             {
@@ -73,18 +73,23 @@ namespace vmPing.UI
 
             if (ApplicationOptions.PingInterval >= 3600000 && ApplicationOptions.PingInterval % 3600000 == 0)
             {
-                pingIntervalUnits = "hours";
+                pingIntervalUnits = "小时";
                 pingIntervalDivisor = 3600000;
             }
             else if (ApplicationOptions.PingInterval >= 60000 && ApplicationOptions.PingInterval % 60000 == 0)
             {
-                pingIntervalUnits = "minutes";
+                pingIntervalUnits = "分";
                 pingIntervalDivisor = 60000;
+            }
+            else if (ApplicationOptions.PingInterval >= 1000 && ApplicationOptions.PingInterval % 1000 == 0)
+            {
+                pingIntervalUnits = "秒";
+                pingIntervalDivisor = 1000;
             }
             else
             {
-                pingIntervalUnits = "seconds";
-                pingIntervalDivisor = 1000;
+                pingIntervalUnits = "毫秒";
+                pingIntervalDivisor = 1;
             }
 
             pingInterval /= pingIntervalDivisor;
@@ -226,17 +231,17 @@ namespace vmPing.UI
         {
             if (PingInterval.Text.Length == 0)
             {
-                ShowError("Please enter a valid ping interval.", GeneralTab, PingInterval);
+                ShowError("请输入有效的 Ping 间隔。", GeneralTab, PingInterval);
                 return false;
             }
             else if (PingTimeout.Text.Length == 0)
             {
-                ShowError("Please enter a valid ping timeout.", GeneralTab, PingTimeout);
+                ShowError("请输入有效的 Ping 超时。", GeneralTab, PingTimeout);
                 return false;
             }
             else if (AlertThreshold.Text.Length == 0)
             {
-                ShowError("Please enter a valid alert threshold.", GeneralTab, AlertThreshold);
+                ShowError("请输入有效的告警阈值。", GeneralTab, AlertThreshold);
                 return false;
             }
 
@@ -246,13 +251,16 @@ namespace vmPing.UI
 
             switch (PingIntervalUnits.Text)
             {
-                case "seconds":
+                case "毫秒":
+                    multiplier = 1;
+                    break;
+                case "秒":
                     multiplier = 1000;
                     break;
-                case "minutes":
+                case "分":
                     multiplier = 1000 * 60;
                     break;
-                case "hours":
+                case "小时":
                     multiplier = 1000 * 60 * 60;
                     break;
             }
@@ -353,7 +361,7 @@ namespace vmPing.UI
                 }
                 else
                 {
-                    ShowError("Please enter a valid number of seconds for the auto-dismiss interval.", PopupAlertsTab, AutoDismissInterval);
+                    ShowError("请输入有效的自动关闭间隔秒数。", PopupAlertsTab, AutoDismissInterval);
                     return false;
                 }
             }
@@ -387,7 +395,7 @@ namespace vmPing.UI
             // Validate TTL.
             if (!regex.IsMatch(TTL.Text) || int.Parse(TTL.Text) < 1 || int.Parse(TTL.Text) > 255)
             {
-                ShowError("Please enter a valid time to live (TTL) between 1 and 255.", AdvancedTab, TTL);
+                ShowError("请输入有效的生存时间 (TTL)，范围 1 到 255。", AdvancedTab, TTL);
                 return false;
             }
 
@@ -399,7 +407,7 @@ namespace vmPing.UI
             {
                 if (!regex.IsMatch(PacketSize.Text) || int.Parse(PacketSize.Text) < 0 || int.Parse(PacketSize.Text) > 65500)
                 {
-                    ShowError("Please enter a valid data size between 0 and 65,500.", AdvancedTab, PacketSize);
+                    ShowError("请输入有效的数据大小，范围 0 到 65,500。", AdvancedTab, PacketSize);
                     return false;
                 }
 
@@ -445,22 +453,22 @@ namespace vmPing.UI
 
                 if (SmtpServer.Text.Length == 0)
                 {
-                    ShowError("Please enter a valid SMTP server address.", EmailAlertsTab, SmtpServer);
+                    ShowError("请输入有效的 SMTP 服务器地址。", EmailAlertsTab, SmtpServer);
                     return false;
                 }
                 else if (SmtpPort.Text.Length == 0 || !regex.IsMatch(SmtpPort.Text))
                 {
-                    ShowError("Please enter a valid port number for your SMTP server.", EmailAlertsTab, SmtpPort);
+                    ShowError("请输入有效的 SMTP 服务器端口号。", EmailAlertsTab, SmtpPort);
                     return false;
                 }
                 else if (EmailRecipientAddress.Text.Length == 0)
                 {
-                    ShowError("Please enter a valid recipient email address. This address will receive email alerts from vmPing.", EmailAlertsTab, EmailRecipientAddress);
+                    ShowError("请输入有效的收件人邮箱地址。该地址将接收来自 vmPing 的邮件提醒。", EmailAlertsTab, EmailRecipientAddress);
                     return false;
                 }
                 else if (EmailFromAddress.Text.Length == 0)
                 {
-                    ShowError("Please enter a valid 'from' address. This address appears as the sender for any alerts that are sent.", EmailAlertsTab, EmailFromAddress);
+                    ShowError("请输入有效的发件人地址。该地址将显示为所有提醒的发件人。", EmailAlertsTab, EmailFromAddress);
                     return false;
                 }
                 if (IsSmtpAuthenticationRequired.IsChecked == true)
@@ -468,7 +476,7 @@ namespace vmPing.UI
                     ApplicationOptions.IsEmailAuthenticationRequired = true;
                     if (SmtpUsername.Text.Length == 0)
                     {
-                        ShowError("Please enter a valid username for your mail server.", EmailAlertsTab, SmtpUsername);
+                        ShowError("请输入有效的邮件服务器用户名。", EmailAlertsTab, SmtpUsername);
                         return false;
                     }
                 }
@@ -512,7 +520,7 @@ namespace vmPing.UI
                 }
                 catch
                 {
-                    ShowError("The specified path does not exist. Please enter a valid path.", AudioAlertTab, AudioDownFilePath);
+                    ShowError("指定的路径不存在。请输入有效的路径。", AudioAlertTab, AudioDownFilePath);
                     return false;
                 }
                 ApplicationOptions.IsAudioDownAlertEnabled = true;
@@ -536,7 +544,7 @@ namespace vmPing.UI
                 }
                 catch
                 {
-                    ShowError("The specified path does not exist. Please enter a valid path.", AudioAlertTab, AudioUpFilePath);
+                    ShowError("指定的路径不存在。请输入有效的路径。", AudioAlertTab, AudioUpFilePath);
                     return false;
                 }
                 ApplicationOptions.IsAudioUpAlertEnabled = true;
@@ -556,7 +564,7 @@ namespace vmPing.UI
             {
                 if (!Directory.Exists(LogPath.Text))
                 {
-                    ShowError("The specified path does not exist.  Please enter a valid path.", LogOutputTab, LogPath);
+                    ShowError("指定的路径不存在。请输入有效的路径。", LogOutputTab, LogPath);
                     return false;
                 }
 
@@ -581,7 +589,7 @@ namespace vmPing.UI
                 }
                 catch
                 {
-                    ShowError("The specified path does not exist.  Please enter a valid path.", LogOutputTab, LogStatusChangesPath);
+                    ShowError("指定的路径不存在。请输入有效的路径。", LogOutputTab, LogStatusChangesPath);
                     return false;
                 }
 
@@ -614,7 +622,7 @@ namespace vmPing.UI
                 {
                     if (!Util.IsValidHtmlColor(box.Text))
                     {
-                        ShowError("Please enter a valid HTML color code.  Accepted formats are #RGB, #RRGGBB, and #AARRGGBB.  Example: #3266CF", LayoutTab, box);
+                        ShowError("请输入有效的 HTML 颜色代码。支持的格式为 #RGB、#RRGGBB 和 #AARRGGBB。示例：#3266CF", LayoutTab, box);
                         box.SelectAll();
 
                         return false;
@@ -692,7 +700,7 @@ namespace vmPing.UI
         private async void TestEmail_Click(object sender, RoutedEventArgs e)
         {
             TestEmailButton.IsEnabled = false;
-            TestEmailButton.Content = "Sending...";
+            TestEmailButton.Content = "发送中...";
             var serverAddress = SmtpServer.Text;
             var serverPort = SmtpPort.Text;
             var isSslEnabled = IsSmtpSslEnabled.IsChecked == true;
@@ -722,9 +730,9 @@ namespace vmPing.UI
                             {
                                 var dialogWindow = new DialogWindow(
                                     DialogWindow.DialogIcon.Info,
-                                    "Email Test",
-                                    "A test email was sent.",
-                                    "OK",
+                                    "邮件测试",
+                                    "测试邮件已发送。",
+                                    "确定",
                                     false)
                                 {
                                     Owner = this
@@ -740,20 +748,20 @@ namespace vmPing.UI
                         {
                             if (IsLoaded)
                             {
-                                ShowError($"Test failed: {ex.Message}", EmailAlertsTab, TestEmailButton);
+                                ShowError($"测试失败：{ex.Message}", EmailAlertsTab, TestEmailButton);
                             }
                         }));
                 }
             });
             TestEmailButton.IsEnabled = true;
-            TestEmailButton.Content = "Test";
+            TestEmailButton.Content = "测试";
         }
 
         private void BrowseLogPath_Click(object sender, RoutedEventArgs e)
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
-                dialog.Description = "Select a location for the log files.";
+                dialog.Description = "选择日志文件的存放位置。";
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
 
                 if (result == System.Windows.Forms.DialogResult.OK)
@@ -767,7 +775,7 @@ namespace vmPing.UI
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
-                dialog.Description = "Select a location for the log files.";
+                dialog.Description = "选择日志文件的存放位置。";
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
 
                 if (result == System.Windows.Forms.DialogResult.OK)
@@ -791,10 +799,10 @@ namespace vmPing.UI
         {
             using (var audiofileDialog = new System.Windows.Forms.OpenFileDialog())
             {
-                audiofileDialog.Title = "Select an audio file";
+                audiofileDialog.Title = "选择音频文件";
                 audiofileDialog.RestoreDirectory = true;
                 audiofileDialog.Multiselect = false;
-                audiofileDialog.Filter = "WAV files (*.wav)|*.wav|All files|*.*";
+                audiofileDialog.Filter = "WAV 文件 (*.wav)|*.wav|所有文件|*.*";
                 audiofileDialog.DefaultExt = ".wav";
 
                 if (audiofileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -825,7 +833,7 @@ namespace vmPing.UI
             }
             catch
             {
-                ShowError("Unable to play audio file.", AudioAlertTab, AudioAlertTab);
+                ShowError("无法播放音频文件。", AudioAlertTab, AudioAlertTab);
             }
         }
 

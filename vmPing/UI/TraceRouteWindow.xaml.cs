@@ -44,7 +44,7 @@ namespace vmPing.UI
                 TraceData.Columns[1].Width = new DataGridLength(100.0);
                 TraceData.Columns[1].Width = new DataGridLength(1.0, DataGridLengthUnitType.Auto);
 
-                TraceStatus.Text = "Tracing route...";
+                TraceStatus.Text = "正在追踪路由...";
                 TraceStatus.Visibility = Visibility.Visible;
                 Route.DestinationHost = Hostname.Text;
                 Route.MaxHops = 30;
@@ -66,7 +66,7 @@ namespace vmPing.UI
                 Route.BgWorker.CancelAsync();
                 Route.ResetEvent.WaitOne();
                 Route.IsActive = false;
-                TraceStatus.Text = "\u2022 Trace cancelled";
+                TraceStatus.Text = "\u2022 追踪已取消";
                 Hostname.Focus();
             }
         }
@@ -148,7 +148,7 @@ namespace vmPing.UI
 
             if (e.ProgressPercentage < 0)
             {
-                TraceStatus.Text = "\u2022 Invalid hostname";
+                TraceStatus.Text = "\u2022 无效主机名";
                 return;
             }
 
@@ -165,12 +165,12 @@ namespace vmPing.UI
 
             if (node.ReplyStatus == IPStatus.TimedOut)
             {
-                node.HostAddress = "Timed out";
+                node.HostAddress = "超时";
             }
 
             if (node.ReplyStatus == IPStatus.Success)
             {
-                TraceStatus.Text = "\u2605 Trace complete";
+                TraceStatus.Text = "\u2605 追踪完成";
             }
 
             Route.networkRoute.Add(node);

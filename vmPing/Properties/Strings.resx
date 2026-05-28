@@ -118,293 +118,293 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_Ping" xml:space="preserve">
-    <value>Ping</value>
+    <value>开始</value>
   </data>
   <data name="Button_Stop" xml:space="preserve">
-    <value>Stop</value>
+    <value>停止</value>
   </data>
   <data name="DialogButton_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="DialogButton_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>编辑</value>
   </data>
   <data name="DialogButton_New" xml:space="preserve">
-    <value>New</value>
+    <value>新建</value>
   </data>
   <data name="DialogButton_OK" xml:space="preserve">
-    <value>OK</value>
+    <value>确定</value>
   </data>
   <data name="DialogButton_Overwrite" xml:space="preserve">
-    <value>Overwrite</value>
+    <value>覆盖</value>
   </data>
   <data name="DialogButton_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>删除</value>
   </data>
   <data name="DialogButton_Save" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
   </data>
   <data name="DialogTitle_ConfirmDelete" xml:space="preserve">
-    <value>Confirm Delete</value>
+    <value>确认删除</value>
   </data>
   <data name="DialogTitle_Error" xml:space="preserve">
-    <value>Error</value>
+    <value>错误</value>
   </data>
   <data name="DialogTitle_Warning" xml:space="preserve">
-    <value>Warning</value>
+    <value>警告</value>
   </data>
   <data name="Email_Down" xml:space="preserve">
-    <value>down</value>
+    <value>离线</value>
   </data>
   <data name="Email_Error" xml:space="preserve">
-    <value>error</value>
+    <value>错误</value>
   </data>
   <data name="Email_Host" xml:space="preserve">
-    <value>Host</value>
+    <value>主机</value>
   </data>
   <data name="Email_Up" xml:space="preserve">
-    <value>up</value>
+    <value>在线</value>
   </data>
   <data name="Email_Verb" xml:space="preserve">
-    <value>is</value>
+    <value>状态为</value>
     <comment>Example:   Host 127.0.0.1 "is" down</comment>
   </data>
   <data name="Error_AddAlias" xml:space="preserve">
-    <value>Failed to add alias.</value>
+    <value>添加别名失败。</value>
   </data>
   <data name="Error_CreateConfig" xml:space="preserve">
-    <value>Failed to create vmPing configuration file.</value>
+    <value>创建 vmPing 配置文件失败。</value>
   </data>
   <data name="Error_CreateDirectory" xml:space="preserve">
-    <value>Failed to create directory for vmPing configuration file.</value>
+    <value>创建 vmPing 配置目录失败。</value>
   </data>
   <data name="Error_DeleteAlias" xml:space="preserve">
-    <value>Failed to delete alias.</value>
+    <value>删除别名失败。</value>
   </data>
   <data name="Error_FailedToLaunch" xml:space="preserve">
-    <value>Failed to launch a new instance of vmPing.</value>
+    <value>启动新 vmPing 实例失败。</value>
   </data>
   <data name="Error_LoadAlias" xml:space="preserve">
-    <value>Failed to load aliases.</value>
+    <value>加载别名失败。</value>
   </data>
   <data name="Error_LoadConfig" xml:space="preserve">
-    <value>Failed to load configuration file.</value>
+    <value>加载配置文件失败。</value>
   </data>
   <data name="Error_ReadConfig" xml:space="preserve">
-    <value>Failed to read configuration file.</value>
+    <value>读取配置文件失败。</value>
   </data>
   <data name="Error_UpgradeConfig" xml:space="preserve">
-    <value>Failed to upgrade configuration file.</value>
+    <value>升级配置文件失败。</value>
   </data>
   <data name="Error_WindowTitle" xml:space="preserve">
-    <value>vmPing - Error</value>
+    <value>vmPing - 错误</value>
   </data>
   <data name="Error_WriteConfig" xml:space="preserve">
-    <value>Failed to write to configuration file.</value>
+    <value>写入配置文件失败。</value>
   </data>
   <data name="ManageAliases_Alias" xml:space="preserve">
-    <value>Alias</value>
+    <value>别名</value>
   </data>
   <data name="ManageAliases_Header" xml:space="preserve">
-    <value>Manage your aliases</value>
+    <value>管理别名</value>
   </data>
   <data name="ManageAliases_Host" xml:space="preserve">
-    <value>Host</value>
+    <value>主机</value>
   </data>
   <data name="ManageAliases_Warn_DeleteA" xml:space="preserve">
-    <value>Are you sure you want to remove</value>
+    <value>确定要删除</value>
     <comment>Parsed as:  [DeleteA] {AliasName} [DeleteB]</comment>
   </data>
   <data name="ManageAliases_Warn_DeleteB" xml:space="preserve">
-    <value>from your aliases?</value>
+    <value>从别名列表中吗？</value>
     <comment>/// See ManageFavorites_Warn_DeleteA for usage when translating</comment>
   </data>
   <data name="ManageAliases_WindowTitle" xml:space="preserve">
-    <value>Aliases</value>
+    <value>别名管理</value>
   </data>
   <data name="ManageFavorites_Header" xml:space="preserve">
-    <value>Manage your favorites</value>
+    <value>管理收藏夹</value>
   </data>
   <data name="ManageFavorites_Warn_DeleteA" xml:space="preserve">
-    <value>Are you sure you want to remove</value>
+    <value>确定要删除</value>
     <comment>Parsed as:  [DeleteA] {FavoriteTitle} [DeleteB]  /// Translating: If this format does not make sense for your locale, make DeleteA an empty string and put your translated message in DeleteB</comment>
   </data>
   <data name="ManageFavorites_Warn_DeleteB" xml:space="preserve">
-    <value>from your favorites?</value>
+    <value>从收藏夹中吗？</value>
   </data>
   <data name="ManageFavorites_WindowTitle" xml:space="preserve">
-    <value>Favorites</value>
+    <value>收藏夹管理</value>
   </data>
   <data name="Menu_Aliases" xml:space="preserve">
-    <value>Aliases</value>
+    <value>别名</value>
   </data>
   <data name="Menu_FavoriteSets" xml:space="preserve">
-    <value>Favorite Sets</value>
+    <value>收藏夹</value>
   </data>
   <data name="Menu_FloodHost" xml:space="preserve">
-    <value>Flood Host</value>
+    <value>泛洪测试</value>
   </data>
   <data name="Menu_Help" xml:space="preserve">
-    <value>Help</value>
+    <value>帮助</value>
   </data>
   <data name="Menu_ManageAliases" xml:space="preserve">
-    <value>Manage Aliases</value>
+    <value>管理别名</value>
   </data>
   <data name="Menu_ManageFavorites" xml:space="preserve">
-    <value>Manage Favorites</value>
+    <value>管理收藏夹</value>
   </data>
   <data name="Menu_Options" xml:space="preserve">
-    <value>Options</value>
+    <value>选项</value>
   </data>
   <data name="Menu_PopupAlerts" xml:space="preserve">
-    <value>Popup Alerts</value>
+    <value>弹窗提醒</value>
   </data>
   <data name="Menu_SaveToFavorites" xml:space="preserve">
-    <value>Create New Favorite Set</value>
+    <value>新建收藏夹</value>
   </data>
   <data name="Menu_StatusHistory" xml:space="preserve">
-    <value>Status History</value>
+    <value>状态历史</value>
   </data>
   <data name="Menu_Traceroute" xml:space="preserve">
-    <value>Traceroute</value>
+    <value>路由追踪</value>
   </data>
   <data name="Milliseconds_Symbol" xml:space="preserve">
-    <value>ms</value>
+    <value>毫秒</value>
   </data>
   <data name="NewAlias_Alias" xml:space="preserve">
-    <value>Alias</value>
+    <value>别名</value>
   </data>
   <data name="NewAlias_Error_InvalidAlias" xml:space="preserve">
-    <value>Please enter a valid alias.</value>
+    <value>请输入有效的别名。</value>
   </data>
   <data name="NewAlias_Error_InvalidHost" xml:space="preserve">
-    <value>Please enter a valid host name.</value>
+    <value>请输入有效的主机名。</value>
   </data>
   <data name="NewAlias_Header" xml:space="preserve">
-    <value>Create a new alias</value>
+    <value>新建别名</value>
   </data>
   <data name="NewAlias_Host" xml:space="preserve">
-    <value>Host</value>
+    <value>主机</value>
   </data>
   <data name="NewFavorite_Error_InvalidName" xml:space="preserve">
-    <value>Please enter a valid name for this favorite set.</value>
+    <value>请为收藏夹输入有效的名称。</value>
   </data>
   <data name="NewFavorite_Header" xml:space="preserve">
-    <value>Create a new favorite set</value>
+    <value>新建收藏夹</value>
   </data>
   <data name="NewFavorite_SelectedHostsHeader" xml:space="preserve">
-    <value>Selected Hosts</value>
+    <value>已选主机</value>
   </data>
   <data name="NewFavorite_Title" xml:space="preserve">
-    <value>Enter a title</value>
+    <value>输入标题</value>
   </data>
   <data name="NewFavorite_Warn_AlreadyExists" xml:space="preserve">
-    <value>already exists.  Would you like to overwrite?</value>
+    <value>已存在，是否覆盖？</value>
     <comment>Parsed as:  {Title} already exists.  Would you like to overwrite?</comment>
   </data>
   <data name="Notification_Always" xml:space="preserve">
-    <value>Always</value>
+    <value>始终</value>
   </data>
   <data name="Notification_Never" xml:space="preserve">
-    <value>Never</value>
+    <value>从不</value>
   </data>
   <data name="Notification_WhenMinimized" xml:space="preserve">
-    <value>When Minimized</value>
+    <value>最小化时</value>
   </data>
   <data name="Probe_Error" xml:space="preserve">
-    <value>Error:</value>
+    <value>错误：</value>
   </data>
   <data name="Probe_HostUnreachable" xml:space="preserve">
-    <value>Reply  [Host unreachable]</value>
+    <value>回复  [主机不可达]</value>
   </data>
   <data name="Probe_InvalidPort" xml:space="preserve">
-    <value>Invalid port number.</value>
+    <value>无效的端口号。</value>
   </data>
   <data name="Probe_NetUnreachable" xml:space="preserve">
-    <value>Reply  [Network unreachable]</value>
+    <value>回复  [网络不可达]</value>
   </data>
   <data name="Probe_Port" xml:space="preserve">
-    <value>Port</value>
+    <value>端口</value>
   </data>
   <data name="Probe_PortClosed" xml:space="preserve">
-    <value>CLOSED</value>
+    <value>关闭</value>
   </data>
   <data name="Probe_PortOpen" xml:space="preserve">
-    <value>OPEN</value>
+    <value>开放</value>
   </data>
   <data name="Probe_Reply" xml:space="preserve">
-    <value>Reply from</value>
+    <value>来自</value>
   </data>
   <data name="Probe_StartPing" xml:space="preserve">
-    <value>Pinging</value>
+    <value>正在 Ping</value>
   </data>
   <data name="Probe_Stat_Lost" xml:space="preserve">
-    <value>Lost:</value>
+    <value>丢失：</value>
   </data>
   <data name="Probe_Stat_Received" xml:space="preserve">
-    <value>Received:</value>
+    <value>已接收：</value>
   </data>
   <data name="Probe_Stat_Sent" xml:space="preserve">
-    <value>Sent:</value>
+    <value>已发送：</value>
   </data>
   <data name="Probe_Timeout" xml:space="preserve">
-    <value>Request timed out.</value>
+    <value>请求超时。</value>
   </data>
   <data name="Probe_UnableToResolve" xml:space="preserve">
-    <value>Unable to resolve hostname.</value>
+    <value>无法解析主机名。</value>
   </data>
   <data name="Probe_Unreachable" xml:space="preserve">
-    <value>Reply  [Unreachable]</value>
+    <value>回复  [不可达]</value>
   </data>
   <data name="StatusChange_Down" xml:space="preserve">
-    <value>down</value>
+    <value>离线</value>
   </data>
   <data name="StatusChange_Error" xml:space="preserve">
-    <value>[error]</value>
+    <value>[错误]</value>
   </data>
   <data name="StatusChange_LatencyHigh" xml:space="preserve">
-    <value>high latency</value>
+    <value>高延迟</value>
   </data>
   <data name="StatusChange_LatencyNormal" xml:space="preserve">
-    <value>normal latency</value>
+    <value>正常延迟</value>
   </data>
   <data name="StatusChange_Start" xml:space="preserve">
-    <value>started</value>
+    <value>已开始</value>
   </data>
   <data name="StatusChange_Stop" xml:space="preserve">
-    <value>stopped</value>
+    <value>已停止</value>
   </data>
   <data name="StatusChange_Up" xml:space="preserve">
-    <value>up</value>
+    <value>在线</value>
   </data>
   <data name="StatusHistory_NoChanges" xml:space="preserve">
-    <value>No status history</value>
+    <value>暂无状态历史</value>
   </data>
   <data name="StatusHistory_NoChangesDescription" xml:space="preserve">
-    <value>When a host changes between down or up, it'll show up here</value>
+    <value>当主机状态发生变化时，将在此处显示</value>
   </data>
   <data name="StatusHistory_WindowTitle" xml:space="preserve">
-    <value>Status History</value>
+    <value>状态历史</value>
   </data>
   <data name="Toolbar_Add" xml:space="preserve">
-    <value>_Add Host</value>
+    <value>_添加主机</value>
   </data>
   <data name="Toolbar_Columns" xml:space="preserve">
-    <value>_Columns</value>
+    <value>_列数</value>
   </data>
   <data name="Toolbar_StartAll" xml:space="preserve">
-    <value>_Start All (F5)</value>
+    <value>_全部开始 (F5)</value>
   </data>
   <data name="Toolbar_StopAll" xml:space="preserve">
-    <value>_Stop All (F5)</value>
+    <value>_全部停止 (F5)</value>
   </data>
   <data name="Tooltip_Close" xml:space="preserve">
-    <value>Close</value>
+    <value>关闭</value>
   </data>
   <data name="Tooltip_EditAlias" xml:space="preserve">
-    <value>Edit alias</value>
+    <value>编辑别名</value>
   </data>
   <data name="Tooltip_IsolatedView" xml:space="preserve">
-    <value>Open isolated view</value>
+    <value>打开独立窗口</value>
   </data>
 </root>

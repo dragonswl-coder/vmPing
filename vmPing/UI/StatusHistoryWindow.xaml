@@ -62,7 +62,7 @@
                         Click="OnMinimizeButtonClick"
                         RenderOptions.EdgeMode="Aliased"
                         Style="{StaticResource TitleBarButtonStyle}"
-                        ToolTip="Minimize" ToolTipService.InitialShowDelay="1000"
+                        ToolTip="最小化" ToolTipService.InitialShowDelay="1000"
                         Foreground="#f1f1f1f1">
                     <Path Width="46"
                           Height="26"
@@ -76,7 +76,7 @@
                         Grid.Column="5"
                         Click="OnMaximizeRestoreButtonClick"
                         Style="{StaticResource TitleBarButtonStyle}"
-                        ToolTip="Maximize" ToolTipService.InitialShowDelay="1000"
+                        ToolTip="最大化" ToolTipService.InitialShowDelay="1000"
                         Foreground="#f1f1f1f1">
                     <Path Width="46"
                           Height="28"
@@ -90,7 +90,7 @@
                         Grid.Column="5"
                         Click="OnMaximizeRestoreButtonClick"
                         Style="{StaticResource TitleBarButtonStyle}"
-                        ToolTip="Restore Down" ToolTipService.InitialShowDelay="1000"
+                        ToolTip="还原" ToolTipService.InitialShowDelay="1000"
                         Foreground="#f1f1f1f1">
                     <Path Width="46"
                           Height="28"
@@ -103,7 +103,7 @@
                 <Button Grid.Column="6"
                         Click="OnCloseButtonClick"
                         Style="{StaticResource TitleBarCloseButtonStyle}"
-                        ToolTip="Close" ToolTipService.InitialShowDelay="1000"
+                        ToolTip="关闭" ToolTipService.InitialShowDelay="1000"
                         Foreground="#f1f1f1f1">
                     <Path Width="46"
                           Height="28"
@@ -132,7 +132,7 @@
                 <DataGrid.Columns>
 
                     <!-- Timestamp and status glyph -->
-                    <DataGridTextColumn Binding="{Binding Timestamp}" Header="Timestamp" MinWidth="90">
+                    <DataGridTextColumn Binding="{Binding Timestamp}" Header="时间" MinWidth="90">
                         <DataGridTextColumn.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
                                 <Setter Property="FontWeight" Value="Regular"/>
@@ -184,7 +184,7 @@
                     </DataGridTextColumn>
 
                     <!-- Address -->
-                    <DataGridTextColumn Binding="{Binding Hostname}" Header="Address" MinWidth="90">
+                    <DataGridTextColumn Binding="{Binding Hostname}" Header="地址" MinWidth="90">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Padding" Value="5,2,25,2"/>
@@ -195,7 +195,7 @@
                     </DataGridTextColumn>
 
                     <!-- Alias -->
-                    <DataGridTextColumn Binding="{Binding Alias}" Header="Alias" MinWidth="50">
+                    <DataGridTextColumn Binding="{Binding Alias}" Header="别名" MinWidth="50">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Padding" Value="5,2,25,2"/>
@@ -206,7 +206,7 @@
                     </DataGridTextColumn>
 
                     <!-- Status -->
-                    <DataGridTextColumn Binding="{Binding StatusAsString}" Header="Status" Width="*">
+                    <DataGridTextColumn Binding="{Binding StatusAsString}" Header="状态" Width="*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="Padding" Value="5,2"/>
@@ -240,7 +240,7 @@
                 <DockPanel DockPanel.Dock="Left" Margin="12,6,6,9">
                     <!-- Filter -->
                     <StackPanel DockPanel.Dock="Left">
-                        <TextBlock Text="Filter" Foreground="#ecce51" Margin="0,0,0,2"/>
+                        <TextBlock Text="筛选" Foreground="#ecce51" Margin="0,0,0,2"/>
                         <!-- Filter -->
                         <Grid>
                             <!-- Textbox -->
@@ -280,18 +280,18 @@
                     </StackPanel>
                     <!-- Filter checkbox options -->
                     <StackPanel Margin="15,0,0,0">
-                        <TextBlock Text="Include" Foreground="#ecce51" Margin="0,0,0,2"/>
+                        <TextBlock Text="包含" Foreground="#ecce51" Margin="0,0,0,2"/>
                         <StackPanel Orientation="Horizontal">
                             <Grid Width="100">
                                 <CheckBox x:Name="FilterUp"
                                           Style="{StaticResource CheckBoxStyle.Dark}"
-                                          Content="Up"
+                                          Content="在线"
                                           IsChecked="True"
                                           Click="Filter_Click"/>
                             </Grid>
                             <CheckBox x:Name="FilterStart"
                                       Style="{StaticResource CheckBoxStyle.Dark}"
-                                      Content="Start"
+                                      Content="开始"
                                       IsChecked="True"
                                       Click="Filter_Click" />
                         </StackPanel>
@@ -299,13 +299,13 @@
                             <Grid Width="100">
                                 <CheckBox x:Name="FilterDown"
                                           Style="{StaticResource CheckBoxStyle.Dark}"
-                                          Content="Down"
+                                          Content="离线"
                                           IsChecked="True"
                                           Click="Filter_Click"/>
                             </Grid>
                             <CheckBox x:Name="FilterStop"
                                       Style="{StaticResource CheckBoxStyle.Dark}"
-                                      Content="Stop"
+                                      Content="停止"
                                       IsChecked="True"
                                       Click="Filter_Click" />
                         </StackPanel>
@@ -314,7 +314,7 @@
                     <StackPanel DockPanel.Dock="Left" Margin="25,0,0,0" HorizontalAlignment="Left">
                         <TextBlock Margin="0,0,0,2"/>
                         <Button Style="{StaticResource ButtonStyle.Dark}"
-                                Content="Export"
+                                Content="导出"
                                 Click="Export_Click"
                                 Width="100"/>
                     </StackPanel>

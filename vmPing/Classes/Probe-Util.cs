@@ -161,7 +161,7 @@ namespace vmPing.Classes
                 if (!token.IsCancellationRequested)
                 {
                     await Application.Current.Dispatcher.BeginInvoke(
-                        new Action(() => AddHistory($"{Environment.NewLine}Unable to resolve hostname")));
+                        new Action(() => AddHistory($"{Environment.NewLine}无法解析主机名")));
                 }
                 return true;
             }
@@ -183,7 +183,7 @@ namespace vmPing.Classes
             catch (Exception ex)
             {
                 ApplicationOptions.IsLogOutputEnabled = false;
-                ShowError($"Failed writing to log file. Logging has been disabled. Error: {ex.Message}");
+                ShowError($"写入日志文件失败，日志已禁用。错误：{ex.Message}");
             }
         }
 
@@ -202,13 +202,13 @@ namespace vmPing.Classes
             catch (Exception ex)
             {
                 ApplicationOptions.IsLogStatusChangesEnabled = false;
-                ShowError($"Failed writing to log file. Logging has been disabled. Error: {ex.Message}");
+                ShowError($"写入日志文件失败，日志已禁用。错误：{ex.Message}");
             }
         }
 
         private void DisplayStatistics()
         {
-            StatisticsText = $"Sent: {Statistics.Sent} Received: {Statistics.Received} Lost: {Statistics.Lost}";
+            StatisticsText = $"已发送：{Statistics.Sent}  已接收：{Statistics.Received}  丢失：{Statistics.Lost}";
         }
 
         private void OnStatusChange(ProbeStatus newStatus, string alertType)
@@ -275,7 +275,7 @@ namespace vmPing.Classes
                 catch (Exception ex)
                 {
                     ApplicationOptions.IsAudioDownAlertEnabled = false;
-                    ShowError($"Failed to play audio file. Audio alerts have been disabled. Error: {ex.Message}");
+                    ShowError($"播放音频文件失败，声音提醒已禁用。错误：{ex.Message}");
                 }
             }
             else if ((ApplicationOptions.IsAudioUpAlertEnabled) && (status.Status == ProbeStatus.Up))
@@ -290,7 +290,7 @@ namespace vmPing.Classes
                 catch (Exception ex)
                 {
                     ApplicationOptions.IsAudioUpAlertEnabled = false;
-                    ShowError($"Failed to play audio file. Audio alerts have been disabled. Error: {ex.Message}");
+                    ShowError($"播放音频文件失败，声音提醒已禁用。错误：{ex.Message}");
                 }
             }
         }

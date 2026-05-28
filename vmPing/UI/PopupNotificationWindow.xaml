@@ -54,7 +54,7 @@
                     Background="Transparent"
                     HorizontalAlignment="Right"
                     IsTabStop="False"
-                    ToolTip="Open status history window"
+                    ToolTip="打开状态历史窗口"
                     ToolTipService.InitialShowDelay="1500"
                     ToolTipService.ShowDuration="2000"
                     Click="Maximize_Click">
@@ -103,7 +103,7 @@
                     Background="Transparent"
                     HorizontalAlignment="Right"
                     IsTabStop="False"
-                    ToolTip="Close"
+                    ToolTip="关闭"
                     ToolTipService.InitialShowDelay="1500"
                     ToolTipService.ShowDuration="2000"
                     Click="Close_Click">

@@ -26,14 +26,14 @@ namespace vmPing.Classes
             {
                 // Error.
                 await Application.Current.Dispatcher.BeginInvoke(
-                    new Action(() => AddHistory("Invalid port number.")));
+                    new Action(() => AddHistory("无效的端口号。")));
 
                 StopProbe(ProbeStatus.Error);
                 return;
             }
 
             await Application.Current.Dispatcher.BeginInvoke(
-                new Action(() => AddHistory($"*** Pinging {host} on port {portnumber}:")));
+                new Action(() => AddHistory($"*** 正在 Ping {host} 端口 {portnumber}:")));
 
             // Check whether a hostname or an IP address was provided.  If hostname, resolve and print IP.
             if (await IsHostInvalid(host, cancellationToken))
@@ -72,7 +72,7 @@ namespace vmPing.Classes
             catch (Exception ex)
             {
                 await Application.Current.Dispatcher.BeginInvoke(
-                            new Action(() => AddHistory("Error: " + ex.Message)));
+                            new Action(() => AddHistory("错误：" + ex.Message)));
                 StopProbe(ProbeStatus.Error);
                 return;
             }
@@ -121,7 +121,7 @@ namespace vmPing.Classes
                         // Check if status changed from down to up.
                         if (Status == ProbeStatus.Down)
                         {
-                            OnStatusChange(ProbeStatus.Up, "up");
+                            OnStatusChange(ProbeStatus.Up, "在线");
                         }
 
                         // Update minimum RTT.
@@ -152,7 +152,7 @@ namespace vmPing.Classes
                             {
                                 if (HighLatencyCount >= ApplicationOptions.HighLatencyAlertTiggerCount)
                                 {
-                                    OnStatusChange(ProbeStatus.LatencyHigh, "high latency");
+                                    OnStatusChange(ProbeStatus.LatencyHigh, "高延迟");
                                 }
                             }
                         }
@@ -168,7 +168,7 @@ namespace vmPing.Classes
                             {
                                 if (HighLatencyCount <= 0)
                                 {
-                                    OnStatusChange(ProbeStatus.LatencyNormal, "normal latency");
+                                    OnStatusChange(ProbeStatus.LatencyNormal, "正常延迟");
                                     Status = ProbeStatus.Up;
                                 }
                             }
@@ -210,14 +210,14 @@ namespace vmPing.Classes
                             IndeterminateCount >= ApplicationOptions.AlertThreshold)
                         {
                             Status = ProbeStatus.Down;
-                            OnStatusChange(ProbeStatus.Down, "down");
+                            OnStatusChange(ProbeStatus.Down, "离线");
                         }
 
                         // If hostname cannot be resolved, report error and stop.
                         if (ex.ErrorCode == WSAHOST_NOT_FOUND)
                         {
                             await Application.Current.Dispatcher.BeginInvoke(
-                                new Action(() => AddHistory("Unable to resolve hostname.")));
+                                new Action(() => AddHistory("无法解析主机名。")));
 
                             StopProbe(ProbeStatus.Error);
                             return;
@@ -231,7 +231,7 @@ namespace vmPing.Classes
                     {
                         // Unexpected error ocurred. Report error and stop probe.
                         await Application.Current.Dispatcher.BeginInvoke(
-                            new Action(() => AddHistory("Error: " + ex.Message)));
+                            new Action(() => AddHistory("错误：" + ex.Message)));
                         StopProbe(ProbeStatus.Error);
                         return;
                     }

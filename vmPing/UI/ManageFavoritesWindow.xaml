@@ -95,18 +95,18 @@
             <Button Click="New_Click"
                     Width="85"
                     Style="{StaticResource ButtonStandardStyle}"
-                    Content="_New"/>
+                    Content="新建"/>
             <Button Click="Edit_Click"
                     Margin="15,0"
                     Width="85"
                     Style="{StaticResource ButtonStandardStyle}"
                     IsEnabled="{Binding ElementName=Favorites, Path=SelectedItems.Count}"
-                    Content="_Edit"/>
+                    Content="编辑"/>
             <Button Click="Remove_Click"
                     Width="85"
                     Style="{StaticResource ButtonStandardStyle}"
                     IsEnabled="{Binding ElementName=Favorites, Path=SelectedItems.Count}"
-                    Content="_Remove"/>
+                    Content="删除"/>
         </StackPanel>
     </Grid>
 </Window>

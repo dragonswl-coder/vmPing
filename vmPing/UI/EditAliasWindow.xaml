@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:resource="clr-namespace:vmPing.Properties"
         mc:Ignorable="d"
-        Title="Edit Alias"
+        Title="编辑别名"
         UseLayoutRounding="True"
         Height="Auto"
         Width="400"
@@ -33,7 +33,7 @@
                        Height="20"
                        Margin="0,0,8,0"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Enter an alias for "
+                    <TextBlock Text="为以下主机输入别名："
                                Style="{StaticResource ResourceKey=OptionHeaderTextStyle}"/>
                     <TextBlock x:Name="Hostname"
                                d:Text="hostname"

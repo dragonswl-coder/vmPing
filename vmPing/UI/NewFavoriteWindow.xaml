@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resource="clr-namespace:vmPing.Properties"
-        Title="New Favorite"
+        Title="新建收藏"
         UseLayoutRounding="True"
         Height="450"
         Width="450"
@@ -54,7 +54,7 @@
 
                 <!-- Columns -->
                 <StackPanel Grid.Column="1" Width="80" Margin="20,0,0,0">
-                    <TextBlock Text="Columns"
+                    <TextBlock Text="列数"
                                Foreground="#404040"
                                FontSize="14"
                                VerticalAlignment="Center"/>
@@ -70,15 +70,15 @@
             <!-- Section for hosts that will be added to favorite -->
             <DockPanel DockPanel.Dock="Top" Margin="0,10" Name="ContentsSection">
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
-                    <TextBlock Text="Hosts to include in favorite set"
+                    <TextBlock Text="要加入收藏夹的主机"
                                Foreground="#404040"
                                FontSize="14"
                                VerticalAlignment="Center"/>
                     <Label Style="{StaticResource LabelToolTip}" MaxWidth="380">
                         <TextBlock>
-                            Type a list of addresses to include in this favorite set.<LineBreak/>
-                            Enter either one per line or comma separated.<LineBreak/><LineBreak/>
-                            If you have a text file containing hosts, drag and drop it here.
+                            输入要加入此收藏夹的地址列表。<LineBreak/>
+                            每行一个或用逗号分隔。<LineBreak/><LineBreak/>
+                            如果有包含主机地址的文本文件，可拖放到此处。
                         </TextBlock>
                     </Label>
                 </StackPanel>

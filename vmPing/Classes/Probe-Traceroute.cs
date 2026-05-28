@@ -16,7 +16,7 @@ namespace vmPing.Classes
             History = new ObservableCollection<string>();
             Status = ProbeStatus.Scanner;
 
-            AddHistory($"[\u2022] Tracing route to {Hostname}:");
+            AddHistory($"[\u2022] 正在追踪路由到 {Hostname}:");
             if (await IsHostInvalid(Hostname, cancellationToken))
             {
                 if (cancellationToken.IsCancellationRequested)
@@ -33,7 +33,7 @@ namespace vmPing.Classes
             {
                 const int MaxHops = 30;
                 const int Timeout = 2000;
-                const string stringFormat = "{0,2}   {1,-15}   [{2} ms]";
+                const string stringFormat = "{0,2}   {1,-15}   [{2} 毫秒]";
                 const string stringErrorFormat = "{0,2}   {1}";
                 var ttl = 1;
                 var timer = new Stopwatch();
@@ -72,14 +72,14 @@ namespace vmPing.Classes
 
                         if (reply.Status == IPStatus.Success)
                         {
-                            AddHistory($"{Environment.NewLine}\u2605 Trace complete");
+                            AddHistory($"{Environment.NewLine}\u2605 追踪完成");
                             break;
                         }
 
                         ttl++;
                         if (ttl > MaxHops)
                         {
-                            AddHistory($"{Environment.NewLine}\u2605 Trace complete");
+                            AddHistory($"{Environment.NewLine}\u2605 追踪完成");
                         }
 
                         await Task.Delay(100);

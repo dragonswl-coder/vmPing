@@ -34,7 +34,7 @@
                     <ScrollViewer x:Name="PART_ContentHost"/>
                 </Border>
                 <TextBlock x:Name="placeholderText"
-                           Text="Enter a hostname"
+                           Text="输入主机名"
                            Visibility="Hidden"
                            FontSize="12"
                            Opacity="0.3"
@@ -155,7 +155,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <!-- Menu: Input addresses-->
-                <MenuItem Name="MultiInputMenu" Header="Input Addresses" InputGestureText="F2">
+                <MenuItem Name="MultiInputMenu" Header="输入地址" InputGestureText="F2">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource icon.input-addresses}" VerticalAlignment="Center" Width="16" Height="16"/>
                     </MenuItem.Icon>
@@ -452,7 +452,7 @@
                                             <Setter Property="Foreground" Value="{Binding Status, Converter={StaticResource ProbeStatusToStatisticsBrushConverter}}"/>
                                         </Style>
                                     </DockPanel.Resources>
-                                    <TextBlock Text="Sent: " Opacity="0.8" Padding="6,0,0,3" />
+                                    <TextBlock Text="已发送：" Opacity="0.8" Padding="6,0,0,3" />
                                     <TextBlock Text="{Binding Statistics.Sent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
                                         <TextBlock.Triggers>
                                             <EventTrigger RoutedEvent="Binding.TargetUpdated">
@@ -466,7 +466,7 @@
                                             </EventTrigger>
                                         </TextBlock.Triggers>
                                     </TextBlock>
-                                    <TextBlock Text="  Received: " Opacity="0.8"/>
+                                    <TextBlock Text="  已接收：" Opacity="0.8"/>
                                     <TextBlock Text="{Binding Statistics.Received, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
                                         <TextBlock.Triggers>
                                             <EventTrigger RoutedEvent="Binding.TargetUpdated">
@@ -480,7 +480,7 @@
                                             </EventTrigger>
                                         </TextBlock.Triggers>
                                     </TextBlock>
-                                    <TextBlock Text="  Lost: " Opacity="0.8"/>
+                                    <TextBlock Text="  丢失：" Opacity="0.8"/>
                                     <TextBlock Text="{Binding Statistics.Lost, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
                                         <TextBlock.Triggers>
                                             <EventTrigger RoutedEvent="Binding.TargetUpdated">

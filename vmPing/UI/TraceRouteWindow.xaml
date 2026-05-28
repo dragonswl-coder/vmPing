@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:vmPing.UI"
         xmlns:classes="clr-namespace:vmPing.Classes"
         UseLayoutRounding="True"
-        Title="Traceroute"
+        Title="路由追踪"
         Height="460"
         Width="520"
         MinHeight="300"
@@ -13,7 +13,7 @@
 
     <Window.Resources>
         <!-- Value converters -->
-        <classes:BoolToStringConverter x:Key="BoolToStringConverter" FalseValue="Trace" TrueValue="Stop"/>
+        <classes:BoolToStringConverter x:Key="BoolToStringConverter" FalseValue="追踪" TrueValue="停止"/>
         <classes:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         <classes:BooleanToImageConverter x:Key="BooleanToImageConverter"/>
 
@@ -29,7 +29,7 @@
                     <ScrollViewer x:Name="PART_ContentHost"/>
                 </Border>
                 <TextBlock x:Name="placeholderText"
-                           Text="Enter target address"
+                           Text="输入目标地址"
                            Visibility="Hidden"
                            FontSize="12"
                            FontWeight="SemiBold"
@@ -63,7 +63,7 @@
         <TextBlock DockPanel.Dock="Top"
                    Style="{StaticResource ResourceKey=OptionHeaderTextStyle}"
                    Margin="0,5,0,10"
-                   Text="Trace Route to Destination"/>
+                   Text="追踪到目标的路由"/>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -92,7 +92,7 @@
                     Padding="0,6"
                     Margin="10,0,0,0"
                     Width="100"
-                    Content="Trace"
+                    Content="追踪"
                     Foreground="Black"
                     Style="{StaticResource ButtonStandardStyle}" Background="WhiteSmoke">
                 <Button.Template>
@@ -199,7 +199,7 @@
             <DataGrid.Columns>
 
                 <!-- Hop ID -->
-                <DataGridTextColumn Binding="{Binding HopId}" Header="Hop" Width="50" MinWidth="40">
+                <DataGridTextColumn Binding="{Binding HopId}" Header="跃点" Width="50" MinWidth="40">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="FontWeight"  Value="Regular"/>
@@ -217,7 +217,7 @@
                 </DataGridTextColumn>
 
                 <!-- IP address -->
-                <DataGridTextColumn Binding="{Binding HostAddress}" Header="IP Address" Width="Auto" MinWidth="100">
+                <DataGridTextColumn Binding="{Binding HostAddress}" Header="IP 地址" Width="Auto" MinWidth="100">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Padding" Value="5,1,35,1"/>
@@ -225,10 +225,10 @@
                             <Setter Property="VerticalAlignment" Value="Center"/>
                             <Setter Property="Text" Value="{Binding HostAddress}"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding HostAddress}" Value="Timed out">
+                                <DataTrigger Binding="{Binding HostAddress}" Value="超时">
                                     <Setter Property="Foreground" Value="#dc322f"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding HostAddress}" Value="Invalid hostname">
+                                <DataTrigger Binding="{Binding HostAddress}" Value="无效主机名">
                                     <Setter Property="Foreground" Value="#dc322f"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding HostAddress}" Value="0.0.0.0">
@@ -240,7 +240,7 @@
                 </DataGridTextColumn>
 
                 <!-- Round trip time -->
-                <DataGridTextColumn Binding="{Binding RoundTripTime, StringFormat=[{0} ms]}" Header="RTT" Width="*">
+                <DataGridTextColumn Binding="{Binding RoundTripTime, StringFormat=[{0} 毫秒]}" Header="往返时间" Width="*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Foreground" Value="#61b8ff"/>
@@ -252,10 +252,10 @@
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="Padding" Value="5,1"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding HostAddress}" Value="Timed out">
+                                <DataTrigger Binding="{Binding HostAddress}" Value="超时">
                                     <Setter Property="Visibility" Value="Hidden"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding HostAddress}" Value="Invalid hostname">
+                                <DataTrigger Binding="{Binding HostAddress}" Value="无效主机名">
                                     <Setter Property="Visibility" Value="Hidden"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding HostAddress}" Value="{x:Null}">

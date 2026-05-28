@@ -35,7 +35,7 @@
             <DockPanel Grid.Column="1" Margin="15,7,0,0">
                 <TextBlock x:Name="MessageHeader"
                            DockPanel.Dock="Top"
-                           Text="Warning"
+                           Text="警告"
                            Foreground="#000000"
                            VerticalAlignment="Center"
                            FontSize="15"

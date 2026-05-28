@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Input Addresses"
+        Title="输入地址"
         UseLayoutRounding="True"
         Height="450" MinHeight="250"
         Width="350" MinWidth="280"
@@ -68,13 +68,13 @@
         <DockPanel LastChildFill="False">
             <Image DockPanel.Dock="Left" Source="{StaticResource icon.input-addresses}" VerticalAlignment="Center" Width="20" Height="20" Margin="0,0,8,0"/>
             <TextBlock DockPanel.Dock="Left"
-                       Text="Enter addresses to ping"
+                       Text="输入要 Ping 的地址"
                        Style="{StaticResource OptionHeaderTextStyle}" />
             <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}" MaxWidth="250">
                 <TextBlock>
-                    Type a list of addresses to ping.<LineBreak/>
-                    Enter one per line or comma separated.<LineBreak/><LineBreak/>
-                    If you have a text file containing hosts,<LineBreak/>drag and drop it here.
+                    输入要 Ping 的地址列表。<LineBreak/>
+                    每行一个或用逗号分隔。<LineBreak/><LineBreak/>
+                    如果有包含主机地址的文本文件，<LineBreak/>可拖放到此处。
                 </TextBlock>
             </Label>
         </DockPanel>
@@ -95,11 +95,11 @@
         <!-- Buttons section -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,9,0,0">
             <Button Style="{StaticResource ButtonStandardStyle}"
-                    Content="OK"
+                    Content="确定"
                     Width="85"
                     Click="OK_Click"/>
             <Button Style="{StaticResource ButtonStandardStyle}"
-                    Content="Cancel"
+                    Content="取消"
                     Width="85"
                     Margin="9,0,0,0"
                     IsCancel="True"/>

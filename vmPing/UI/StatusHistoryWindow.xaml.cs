@@ -153,12 +153,12 @@ namespace vmPing.UI
         {
             using (System.Windows.Forms.SaveFileDialog exportDialog = new System.Windows.Forms.SaveFileDialog())
             {
-                exportDialog.Title = "Export";
+                exportDialog.Title = "导出";
                 exportDialog.RestoreDirectory = true;
                 exportDialog.OverwritePrompt = true;
                 exportDialog.AddExtension = true;
                 exportDialog.AutoUpgradeEnabled = true;
-                exportDialog.Filter = "CSV (Comma delimited)|*.csv|Text (Tab delimited)|*.txt|Text (Space delimited)|*.txt";
+                exportDialog.Filter = "CSV (逗号分隔)|*.csv|文本 (制表符分隔)|*.txt|文本 (空格分隔)|*.txt";
                 exportDialog.FileName = "status-history.csv";
                 if (exportDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && exportDialog.FileName != "")
                 {

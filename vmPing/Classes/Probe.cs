@@ -221,17 +221,17 @@ namespace vmPing.Classes
             // Display stats and round trip times.
             AddHistory(string.Empty);
             AddHistory(
-                $"Sent {Statistics.Sent}, " +
-                $"Received {Statistics.Received}, " +
-                $"Lost {Statistics.Sent - Statistics.Received} " +
-                $"({(100 * (Statistics.Sent - Statistics.Received)) / Statistics.Sent}% loss)");
+                $"已发送 {Statistics.Sent}, " +
+                $"已接收 {Statistics.Received}, " +
+                $"丢失 {Statistics.Sent - Statistics.Received} " +
+                $"({(100 * (Statistics.Sent - Statistics.Received)) / Statistics.Sent}% 丢包率)");
 
             if (roundTripTimes.Count > 0)
             {
                 AddHistory(
-                    $"Minimum ({roundTripTimes.Min()}{Strings.Milliseconds_Symbol}), " +
-                    $"Maximum ({roundTripTimes.Max()}{Strings.Milliseconds_Symbol}), " +
-                    $"Average ({roundTripTimes.Average():0.##}{Strings.Milliseconds_Symbol})");
+                    $"最小 ({roundTripTimes.Min()}{Strings.Milliseconds_Symbol}), " +
+                    $"最大 ({roundTripTimes.Max()}{Strings.Milliseconds_Symbol}), " +
+                    $"平均 ({roundTripTimes.Average():0.##}{Strings.Milliseconds_Symbol})");
             }
 
             AddHistory(" ");

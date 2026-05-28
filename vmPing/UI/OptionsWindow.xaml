@@ -1,7 +1,7 @@
 ﻿<Window x:Class="vmPing.UI.OptionsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Options"
+        Title="选项"
         UseLayoutRounding="True"
         Height="540"
         Width="580"
@@ -37,25 +37,26 @@
 
         <TabControl TabStripPlacement="Left" HorizontalContentAlignment="Left">
             <!-- Tab: General -->
-            <TabItem Header="General" Name="GeneralTab">
+            <TabItem Header="常规" Name="GeneralTab">
                 <DockPanel Margin="20,0" LastChildFill="False">
                     <TextBlock DockPanel.Dock="Top"
-                               Text="Probe Options"
+                               Text="Ping 选项"
                                Style="{StaticResource OptionHeaderTextStyle}"/>
                     <!-- Ping interval -->
                     <StackPanel DockPanel.Dock="Top"
                                 Orientation="Horizontal"
                                 Margin="0,10,0,0">
-                        <TextBlock Text="Ping interval:"
+                        <TextBlock Text="Ping 间隔："
                                    Width="110"/>
                         <TextBox Name="PingInterval"
                                  PreviewTextInput="NumericTextbox_PreviewTextInput"
                                  Width="60"
                                  MaxLength="5"/>
                         <ComboBox Name="PingIntervalUnits" Width="100" Margin="10,0,0,0">
-                            <ComboBoxItem Content="seconds" IsSelected="True"/>
-                            <ComboBoxItem Content="minutes"/>
-                            <ComboBoxItem Content="hours"/>
+                            <ComboBoxItem Content="毫秒"/>
+                            <ComboBoxItem Content="秒" IsSelected="True"/>
+                            <ComboBoxItem Content="分"/>
+                            <ComboBoxItem Content="小时"/>
                         </ComboBox>
                     </StackPanel>
 
@@ -63,13 +64,13 @@
                     <StackPanel DockPanel.Dock="Top"
                                 Orientation="Horizontal"
                                 Margin="0,10,0,0">
-                        <TextBlock Text="Ping timeout:"
+                        <TextBlock Text="Ping 超时："
                                    Width="110"/>
                         <TextBox Name="PingTimeout"
                                  PreviewTextInput="NumericTextbox_PreviewTextInput"
                                  Width="60"
                                  MaxLength="2"/>
-                        <TextBlock Text="seconds"
+                        <TextBlock Text="秒"
                                    Margin="10,0,0,0"/>
                     </StackPanel>
 
@@ -79,31 +80,31 @@
                     <StackPanel DockPanel.Dock="Top"
                                 Orientation="Horizontal"
                                 Margin="0,10,0,0">
-                        <TextBlock Text="Alert threshold:"
+                        <TextBlock Text="告警阈值："
                                    Width="110"/>
                         <TextBox Name="AlertThreshold"
                                  PreviewTextInput="NumericTextbox_PreviewTextInput"
                                  Width="60"
                                  MaxLength="2"/>
-                        <TextBlock Text="dropped pings"
+                        <TextBlock Text="次丢包"
                                    Margin="10,0,0,0"/>
                     </StackPanel>
 
                     <!-- Startup header -->
                     <TextBlock DockPanel.Dock="Top"
-                               Text="Startup"
+                               Text="启动"
                                Margin="0,25,0,10"
                                Style="{StaticResource OptionHeaderTextStyle}"/>
                     <TextBlock DockPanel.Dock="Top"
-                               Text="Choose how vmPing should start:"
+                               Text="选择 vmPing 的启动方式："
                                Margin="0,0,0,5"/>
                     <!-- Startup mode selection -->
                     <ComboBox DockPanel.Dock="Top"
                               Name="StartupMode"
                               Width="200">
-                        <ComboBoxItem Content="Blank (default)" Tag="Standard" IsSelected="True"/>
-                        <ComboBoxItem Content="List input window" Tag="Standard"/>
-                        <ComboBoxItem Content="Load a favorite" Tag="Favorite"/>
+                        <ComboBoxItem Content="空白（默认）" Tag="Standard" IsSelected="True"/>
+                        <ComboBoxItem Content="输入列表窗口" Tag="Standard"/>
+                        <ComboBoxItem Content="加载收藏夹" Tag="Favorite"/>
                     </ComboBox>
                     <!-- Initial probe / column count -->
                     <StackPanel DockPanel.Dock="Top"
@@ -122,7 +123,7 @@
                         </StackPanel.Style>
                         <!-- Probe count -->
                         <StackPanel Margin="0,0,30,0">
-                            <TextBlock Text="Probe count:"
+                            <TextBlock Text="探针数量："
                                        Margin="0,0,0,4"/>
                             <TextBox Name="InitialProbeCount"
                                      PreviewTextInput="NumericTextbox_PreviewTextInput"
@@ -132,7 +133,7 @@
                         </StackPanel>
                         <!-- Column count-->
                         <StackPanel>
-                            <TextBlock Text="Column count:"
+                            <TextBlock Text="列数："
                                        Margin="0,0,0,4"/>
                             <TextBox Name="InitialColumnCount"
                                      PreviewTextInput="NumericTextbox_PreviewTextInput"
@@ -158,7 +159,7 @@
                         </StackPanel.Style>
                         <!-- Favorite selection -->
                         <StackPanel Margin="0,0,35,0">
-                            <TextBlock Text="Select a favorite:"
+                            <TextBlock Text="选择收藏夹："
                                        Margin="0,0,0,4"/>
                             <ComboBox DockPanel.Dock="Top"
                                       Name="InitialFavorite"
@@ -170,25 +171,25 @@
             </TabItem>
 
             <!-- Tab: Advanced -->
-            <TabItem Header="Advanced" Name="AdvancedTab">
+            <TabItem Header="高级" Name="AdvancedTab">
                 <DockPanel Margin="20,0" LastChildFill="False">
 
                     <!-- Header -->
                     <TextBlock DockPanel.Dock="Top"
-                               Text="Advanced ICMP Options"
+                               Text="高级 ICMP 选项"
                                Style="{StaticResource OptionHeaderTextStyle}"/>
 
                     <!-- TTL -->
                     <StackPanel DockPanel.Dock="Top"
                                 Orientation="Horizontal"
                                 Margin="0,10,0,0">
-                        <TextBlock Text="Time to live:"
+                        <TextBlock Text="生存时间 (TTL)："
                                    Width="110"/>
                         <TextBox Name="TTL"
                                  PreviewTextInput="NumericTextbox_PreviewTextInput"
                                  Width="80"
                                  MaxLength="3"/>
-                        <TextBlock Text="hops"
+                        <TextBlock Text="跳"
                                    Margin="10,0,0,0"/>
                     </StackPanel>
 
@@ -200,7 +201,7 @@
                                 Orientation="Horizontal"
                                 Margin="0">
                         <RadioButton GroupName="IcmpData"
-                                     Content="Packet data size"
+                                     Content="数据包大小"
                                      Name="PacketSizeOption"
                                      Checked="PacketSizeOption_Checked"
                                      IsChecked="True"
@@ -211,7 +212,7 @@
                                  Width="80"
                                  MaxLength="5"
                                  Visibility="{Binding IsChecked, ElementName=PacketSizeOption, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"/>
-                        <TextBlock Text="bytes" Margin="10,0,0,0"
+                        <TextBlock Text="字节" Margin="10,0,0,0"
                                    Visibility="{Binding IsChecked, ElementName=PacketSizeOption, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"/>
                     </StackPanel>
 
@@ -219,7 +220,7 @@
                     <DockPanel DockPanel.Dock="Top"
                                 Margin="0,7,0,0">
                         <RadioButton GroupName="IcmpData"
-                                     Content="Custom packet data"
+                                     Content="自定义数据包"
                                      Name="UseCustomPacketOption"
                                      Checked="UseCustomPacketOption_Checked"
                                      DockPanel.Dock="Left"
@@ -240,13 +241,13 @@
                     <!-- Total packet size -->
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,15,0,0">
                         <TextBlock Foreground="#0e70c0"
-                                   Text="Total packet size:"/>
+                                    Text="数据包总大小：" />
                         <TextBlock Foreground="#dc322f"
                                    Name="Bytes"
                                    Margin="6,0,4,0"
                                    Text="64"/>
                         <TextBlock Foreground="#dc322f"
-                                   Text="bytes"/>
+                                   Text="字节"/>
                     </StackPanel>
 
                     <!-- Separator -->
@@ -256,13 +257,13 @@
                     <DockPanel DockPanel.Dock="Top" LastChildFill="False">
                         <CheckBox DockPanel.Dock="Left"
                                   Name="DontFragment"
-                                  Content="Don't fragment"/>
+                                  Content="不分片"/>
                         <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
                             <TextBlock>
-                                The don't fragment flag instructs routers to discard the packet if it is too big.
+                                启用后，如果数据包过大，路由器将丢弃该数据包。
                                 <LineBreak/>
                                 <LineBreak/>
-                                Your maximum transmission unit (MTU) can be determined by enabling this option and adjusting the packet data size.
+                                启用此选项并调整数据包大小，可确定您的最大传输单元 (MTU)。
                             </TextBlock>
                         </Label>
                     </DockPanel>
@@ -270,20 +271,20 @@
             </TabItem>
             
             <!-- Tab: Popup Alerts -->
-            <TabItem Header="Notifications" Name="PopupAlertsTab">
+            <TabItem Header="通知" Name="PopupAlertsTab">
                 <DockPanel Margin="20,0" LastChildFill="False">
 
                     <!-- Header -->
                     <DockPanel DockPanel.Dock="Top" LastChildFill="False">
                         <TextBlock DockPanel.Dock="Left"
-                                   Text="Popup Alerts"
+                                   Text="弹窗提醒"
                                    Style="{StaticResource OptionHeaderTextStyle}"/>
                         <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
                             <TextBlock>
-                                Popup alerts appear in the lower right corner of your screen when a host you are monitoring changes status (down or up).
+                                当监控的主机状态发生变化（离线/在线）时，弹窗将出现在屏幕右下角。
                                 <LineBreak/>
                                 <LineBreak/>
-                                You can always show popup alerts, show only when vmPing is minimized, or disable entirely.
+                                您可以始终显示弹窗、仅在 vmPing 最小化时显示或完全禁用。
                             </TextBlock>
                         </Label>
                     </DockPanel>
@@ -292,17 +293,17 @@
                     <!-- Popup notification option radio button group -->
                     <RadioButton DockPanel.Dock="Top"
                                  GroupName="PopupAlerts"
-                                 Content="Disabled"
+                                 Content="禁用"
                                  Name="PopupsDisabledOption"
                                  Margin="0,15,0,0"/>
                     <RadioButton DockPanel.Dock="Top"
                                  GroupName="PopupAlerts"
-                                 Content="Show when minimized"
+                                 Content="最小化时显示"
                                  Name="PopupsMinimizedOption"
                                  Margin="0,6"/>
                     <RadioButton DockPanel.Dock="Top"
                                  GroupName="PopupAlerts"
-                                 Content="Always show"
+                                 Content="始终显示"
                                  Name="PopupsAlwaysOption"
                                  IsChecked="True"/>
 
@@ -310,10 +311,10 @@
                     <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,20,0,5">
                         <CheckBox DockPanel.Dock="Left"
                                   Name="IsAutoDismissEnabled"
-                                  Content="Auto-dismiss notifications"
+                                  Content="自动关闭通知"
                                   IsChecked="True"/>
                         <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
-                            Automatically close popup alerts after the specified number of seconds.
+                            在指定秒数后自动关闭弹窗提醒。
                         </Label>
                     </DockPanel>
 
@@ -326,30 +327,30 @@
                                  PreviewTextInput="NumericTextbox_PreviewTextInput"
                                  Width="60"
                                  MaxLength="2"/>
-                        <TextBlock Text="seconds"
+                        <TextBlock Text="秒"
                                    Margin="10,0,0,0"/>
                     </StackPanel>
                 </DockPanel>
             </TabItem>
 
             <!-- Tab: Email Alerts -->
-            <TabItem Header="Email" Name="EmailAlertsTab">
+            <TabItem Header="邮件" Name="EmailAlertsTab">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <DockPanel Margin="20,0,20,15">
 
                         <!-- Header -->
                         <TextBlock DockPanel.Dock="Top"
-                                   Text="Email Alerts"
+                                   Text="邮件提醒"
                                    Style="{StaticResource OptionHeaderTextStyle}"/>
 
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,15">
                             <CheckBox DockPanel.Dock="Top"
                                       Name="IsEmailAlertsEnabled"
-                                      Content="Enable email alerts"
+                                      Content="启用邮件提醒"
                                       Click="IsEmailAlertsEnabled_Click"
                                       IsChecked="True"/>
                             <Label Style="{StaticResource LabelToolTip}">
-                                Enable this option to send an email alert every time a host changes status (down or up).
+                                启用后，每当主机状态发生变化时发送邮件提醒。
                             </Label>
                         </StackPanel>
 
@@ -370,13 +371,13 @@
 
                             <!-- Server information subheading -->
                             <TextBlock DockPanel.Dock="Top"
-                                       Text="Server Information"
+                                       Text="服务器信息"
                                        Style="{StaticResource OptionSubHeaderTextStyle}"/>
 
                             <!-- SMTP Server-->
                             <DockPanel>
                                 <Grid Width="120">
-                                    <TextBlock Text="SMTP server"/>
+                                    <TextBlock Text="SMTP 服务器"/>
                                 </Grid>
                                 <TextBox Name="SmtpServer"/>
                             </DockPanel>
@@ -384,7 +385,7 @@
                             <!-- Smtp Port -->
                             <DockPanel>
                                 <Grid Width="120">
-                                    <TextBlock Text="Port"/>
+                                    <TextBlock Text="端口"/>
                                 </Grid>
                                 <TextBox Name="SmtpPort"
                                          PreviewTextInput="NumericTextbox_PreviewTextInput"
@@ -392,7 +393,7 @@
                                          MaxLength="5"
                                          Width="75"/>
                                 <CheckBox Name="IsSmtpSslEnabled"
-                                          Content="Enable SSL/TLS"
+                                          Content="启用 SSL/TLS"
                                           FontSize="13"
                                           Margin="50,0,0,0"/>
                             </DockPanel>
@@ -401,7 +402,7 @@
                             <!-- Smtp Authentication -->
                             <CheckBox DockPanel.Dock="Top"
                                       Name="IsSmtpAuthenticationRequired"
-                                      Content="This server requires authentication"
+                                      Content="此服务器需要身份验证"
                                       Click="IsSmtpAuthenticationRequired_Click"
                                       Foreground="#888"
                                       FontSize="13"
@@ -411,7 +412,7 @@
                                 <!-- Smtp User -->
                                 <DockPanel>
                                     <Grid Width="120">
-                                        <TextBlock Text="Username"/>
+                                        <TextBlock Text="用户名"/>
                                     </Grid>
                                     <TextBox Name="SmtpUsername"/>
                                 </DockPanel>
@@ -419,7 +420,7 @@
                                 <!-- Smtp Password -->
                                 <DockPanel>
                                     <Grid Width="120">
-                                        <TextBlock Text="Password"/>
+                                        <TextBlock Text="密码"/>
                                     </Grid>
                                     <PasswordBox Name="SmtpPassword"/>
                                 </DockPanel>
@@ -427,14 +428,14 @@
 
                             <!-- Email addresses subheading -->
                             <TextBlock DockPanel.Dock="Top"
-                                       Text="Email Addresses"
+                                       Text="邮件地址"
                                        Margin="0,12,0,5"
                                        Style="{StaticResource OptionSubHeaderTextStyle}"/>
 
                             <!-- Recipient Address-->
                             <DockPanel>
                                 <Grid Width="120">
-                                    <TextBlock Text="Recipient address"/>
+                                    <TextBlock Text="收件人地址"/>
                                 </Grid>
                                 <TextBox Name="EmailRecipientAddress"
                                          LostFocus="EmailRecipientAddress_LostFocus"/>
@@ -443,7 +444,7 @@
                             <!-- From Address-->
                             <DockPanel>
                                 <Grid Width="120">
-                                    <TextBlock Text="From address"/>
+                                    <TextBlock Text="发件人地址"/>
                                 </Grid>
                                 <TextBox Name="EmailFromAddress"/>
                             </DockPanel>
@@ -456,7 +457,7 @@
                                     Click="TestEmail_Click"
                                     Width="85"
                                     Margin="0,18,0,0"
-                                    Content="Test"
+                                    Content="测试"
                                     HorizontalAlignment="Left"/>
                         </DockPanel>
                     </DockPanel>
@@ -464,22 +465,22 @@
             </TabItem>
 
             <!-- Tab: Audio Alerts -->
-            <TabItem Header="Sounds" Name="AudioAlertTab">
+            <TabItem Header="声音" Name="AudioAlertTab">
                 <DockPanel Margin="20,0">
 
                     <!-- Header -->
                     <TextBlock DockPanel.Dock="Top"
-                               Text="Audio Alerts"
+                               Text="声音提醒"
                                Style="{StaticResource OptionHeaderTextStyle}"/>
 
                     <!-- Audio Alert Down: checkbox / tooltip -->
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
                         <CheckBox Name="IsAudioDownAlertEnabled"
                                   Click="IsAudioDownAlertEnabled_Click"
-                                  Content="Enable audio alert: host down"
+                                  Content="启用主机离线声音提醒"
                                   IsChecked="True"/>
                         <Label Style="{StaticResource LabelToolTip}">
-                            Enable this option to play a sound when a host goes down.
+                            启用后，当主机离线时播放声音。
                         </Label>
                     </StackPanel>
 
@@ -489,7 +490,7 @@
                           VerticalAlignment="Top"
                           Visibility="{Binding IsChecked, ElementName=IsAudioDownAlertEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel>
-                            <TextBlock Text="Audio file path"/>
+                            <TextBlock Text="音频文件路径"/>
                             <TextBox Name="AudioDownFilePath"
                                      Margin="0,4,0,8"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -497,7 +498,7 @@
                                 <Button Style="{StaticResource ButtonStandardStyle}"
                                         Click="AudioDownBrowse_Click"
                                         Width="85"
-                                        Content="Browse..."/>
+                                        Content="浏览..."/>
                                 <!-- Play button -->
                                 <Grid>
                                     <Grid.Style>
@@ -513,7 +514,7 @@
                                             Click="AudioDownPlay_Click"
                                             Width="85"
                                             Margin="10,0,0,0"
-                                            Content="Test">
+                                            Content="测试">
                                     </Button>
                                 </Grid>
                             </StackPanel>
@@ -528,10 +529,10 @@
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
                         <CheckBox Name="IsAudioUpAlertEnabled"
                                   Click="IsAudioUpAlertEnabled_Click"
-                                  Content="Enable audio alert: host up"
+                                  Content="启用主机在线声音提醒"
                                   IsChecked="True"/>
                         <Label Style="{StaticResource LabelToolTip}">
-                            Enable this option to play a sound when a host comes up.
+                            启用后，当主机恢复在线时播放声音。
                         </Label>
                     </StackPanel>
 
@@ -541,7 +542,7 @@
                           VerticalAlignment="Top"
                           Visibility="{Binding IsChecked, ElementName=IsAudioUpAlertEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel>
-                            <TextBlock Text="Audio file path"/>
+                            <TextBlock Text="音频文件路径"/>
                             <TextBox Name="AudioUpFilePath"
                                      Margin="0,4,0,8"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -549,7 +550,7 @@
                                 <Button Style="{StaticResource ButtonStandardStyle}"
                                         Click="AudioUpBrowse_Click"
                                         Width="85"
-                                        Content="Browse..."/>
+                                        Content="浏览..."/>
                                 <!-- Play button -->
                                 <Grid>
                                     <Grid.Style>
@@ -565,7 +566,7 @@
                                             Click="AudioUpPlay_Click"
                                             Width="85"
                                             Margin="10,0,0,0"
-                                            Content="Test">
+                                            Content="测试">
                                     </Button>
                                 </Grid>
                             </StackPanel>
@@ -575,22 +576,22 @@
             </TabItem>
 
             <!-- Tab: Logging -->
-            <TabItem Header="Logging" Name="LogOutputTab">
+            <TabItem Header="日志" Name="LogOutputTab">
                 <DockPanel Margin="20,0">
 
                     <!-- Header -->
                     <TextBlock DockPanel.Dock="Top"
-                               Text="Log Output"
+                               Text="日志输出"
                                Style="{StaticResource OptionHeaderTextStyle}"/>
 
                     <!-- Log all ping output -->
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
                         <CheckBox Name="IsLogOutputEnabled"
-                                  Content="Write ping output to plain text files"
+                                  Content="将 Ping 输出写入文本文件"
                                   IsChecked="True"/>
                         <Label Style="{StaticResource LabelToolTip}">
-                            If this option is enabled, all ping output is written to a text file.
-                            You specify the base directory, and vmPing will generate a separate log file for each host (hostname.txt).
+                            启用后，所有 Ping 输出将写入文本文件。
+                            您指定基础目录，vmPing 将为每个主机生成单独的日志文件 (hostname.txt)。
                         </Label>
                     </StackPanel>
                     <Grid DockPanel.Dock="Top"
@@ -598,13 +599,13 @@
                           VerticalAlignment="Top"
                           Visibility="{Binding IsChecked, ElementName=IsLogOutputEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel>
-                            <TextBlock Text="Log path (base directory)"/>
+                            <TextBlock Text="日志路径（基础目录）"/>
                             <TextBox Name="LogPath"
                                      Margin="0,4,0,8"/>
                             <Button Style="{StaticResource ButtonStandardStyle}"
                                     Click="BrowseLogPath_Click"
                                     Width="85"
-                                    Content="Browse..."
+                                    Content="浏览..."
                                     HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Grid>
@@ -616,12 +617,12 @@
                     <!-- Log status changes -->
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
                         <CheckBox Name="IsLogStatusChangesEnabled"
-                                  Content="Log status changes to text file"
+                                  Content="将状态变更记录到文本文件"
                                   IsChecked="True"/>
                         <Label Style="{StaticResource LabelToolTip}">
-                            When enabled, this option writes all status changes to a text file.
-                            A status change is when a host you are pinging goes down, or a down host comes back up.
-                            The text file is saved in a tab delimited format that is suitable for Excel or database imports.
+                            启用后，所有状态变更将写入文本文件。
+                            状态变更是指被 Ping 的主机离线或已离线的主机恢复在线。
+                            文本文件以制表符分隔格式保存，适合 Excel 或数据库导入。
                         </Label>
                     </StackPanel>
                     <Grid DockPanel.Dock="Top"
@@ -629,13 +630,13 @@
                           VerticalAlignment="Top"
                           Visibility="{Binding IsChecked, ElementName=IsLogStatusChangesEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel>
-                            <TextBlock Text="Log path"/>
+                            <TextBlock Text="日志路径"/>
                             <TextBox Name="LogStatusChangesPath"
                                      Margin="0,4,0,8"/>
                             <Button Style="{StaticResource ButtonStandardStyle}"
                                     Click="BrowseLogStatusChangesPath_Click"
                                     Width="85"
-                                    Content="Browse..."
+                                    Content="浏览..."
                                     HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Grid>
@@ -643,39 +644,39 @@
             </TabItem>
 
             <!-- Tab: Display -->
-            <TabItem Header="Display" Name="DisplayTab">
+            <TabItem Header="显示" Name="DisplayTab">
                 <DockPanel Margin="20,0" LastChildFill="False">
 
                     <!-- Header -->
                     <TextBlock DockPanel.Dock="Top"
-                               Text="Display Options"
+                               Text="显示选项"
                                Style="{StaticResource OptionHeaderTextStyle}"/>
 
                     <!-- Always on top -->
                     <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,15,0,0">
                         <CheckBox DockPanel.Dock="Left"
                                   Name="IsAlwaysOnTopEnabled"
-                                  Content="Always on top"/>
+                                  Content="窗口置顶"/>
                         <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
-                            Keep the vmPing application on top and always visible over other windows.
+                            保持 vmPing 窗口始终位于其他窗口之上。
                         </Label>
                     </DockPanel>
                     <!-- Minimze to tray -->
                     <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,15,0,0">
                         <CheckBox DockPanel.Dock="Left"
                                   Name="IsMinimizeToTrayEnabled"
-                                  Content="Minimize to tray"/>
+                                  Content="最小化到托盘"/>
                         <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
                             <TextBlock>
-                                Place an icon in the system tray when vmPing is minimized.
+                                最小化时在系统托盘显示图标。
                                 <LineBreak/>
                                 <LineBreak/>
-                                To keep the system tray icon always visible:
+                                要使系统托盘图标始终可见：
                                 <LineBreak/>
-                                Right-click the Windows taskbar and choose 'Taskbar settings'.
-                                Under 'Notifications area' click 'Select which icons to appear on the taskbar'. Look for vmPing and set to 'On'.
+                                右键点击 Windows 任务栏，选择"任务栏设置"。
+                                在"通知区域"下点击"选择在任务栏上显示哪些图标"，找到 vmPing 并设为"开"。
                                 <LineBreak/>
-                                (Steps may vary)
+                                （步骤可能因系统而异）
                             </TextBlock>
                         </Label>
                     </DockPanel>
@@ -683,18 +684,18 @@
                     <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,15,0,0">
                         <CheckBox DockPanel.Dock="Left"
                                   Name="IsExitToTrayEnabled"
-                                  Content="Exit to tray"/>
+                                  Content="关闭到托盘"/>
                         <Label DockPanel.Dock="Left" Style="{StaticResource LabelToolTip}">
                             <TextBlock>
-                                When closing vmPing, the application will minimize to the system tray rather than exit. Right-click the tray icon to exit.
+                                关闭 vmPing 时，应用程序将最小化到系统托盘而非退出。右键点击托盘图标可退出。
                                 <LineBreak/>
                                 <LineBreak/>
-                                To keep the system tray icon always visible:
+                                要使系统托盘图标始终可见：
                                 <LineBreak/>
-                                Right-click the Windows taskbar and choose 'Taskbar settings'.
-                                Under 'Notifications area' click 'Select which icons to appear on the taskbar'. Look for vmPing and set to 'On'.
+                                右键点击 Windows 任务栏，选择"任务栏设置"。
+                                在"通知区域"下点击"选择在任务栏上显示哪些图标"，找到 vmPing 并设为"开"。
                                 <LineBreak/>
-                                (Steps may vary)
+                                （步骤可能因系统而异）
                             </TextBlock>
                         </Label>
                     </DockPanel>
@@ -702,7 +703,7 @@
             </TabItem>
             
             <!-- Tab: Layout -->
-            <TabItem Header="Colors" Name="LayoutTab">
+            <TabItem Header="颜色" Name="LayoutTab">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <DockPanel LastChildFill="False"
                                Name="ColorsDockPanel"
@@ -726,36 +727,36 @@
 
                         <!-- Header -->
                         <TextBlock DockPanel.Dock="Top"
-                                   Text="Colors"
+                                   Text="颜色"
                                    Style="{StaticResource OptionHeaderTextStyle}"/>
 
                         <!-- Probe background colors -->
                         <TextBlock DockPanel.Dock="Top"
-                                   Text="Probe Background"
+                                   Text="探针背景色"
                                    Margin="0,10,0,0"
                                    Style="{StaticResource OptionSubHeaderTextStyle}"/>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Inactive"/>
+                                    <TextBlock Width="150" Text="未激活"/>
                             <TextBox Name="BackgroundColor_Probe_Inactive"/>
                             <Border Background="{Binding ElementName=BackgroundColor_Probe_Inactive, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Up"/>
+                            <TextBlock Width="150" Text="在线"/>
                             <TextBox Name="BackgroundColor_Probe_Up"/>
                             <Border Background="{Binding ElementName=BackgroundColor_Probe_Up, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Down"/>
+                            <TextBlock Width="150" Text="离线"/>
                             <TextBox Name="BackgroundColor_Probe_Down"/>
                             <Border Background="{Binding ElementName=BackgroundColor_Probe_Down, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Indeterminate"/>
+                            <TextBlock Width="150" Text="不确定"/>
                             <TextBox Name="BackgroundColor_Probe_Indeterminate"/>
                             <Border Background="{Binding ElementName=BackgroundColor_Probe_Indeterminate, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Error"/>
+                            <TextBlock Width="150" Text="错误"/>
                             <TextBox Name="BackgroundColor_Probe_Error"/>
                             <Border Background="{Binding ElementName=BackgroundColor_Probe_Error, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
@@ -763,31 +764,31 @@
                         <!-- Probe foreground colors -->
                         <Separator DockPanel.Dock="Top" Height="1" Width="20" Background="Transparent" Margin="0,20,0,0"/>
                         <TextBlock DockPanel.Dock="Top"
-                                   Text="Probe Foreground"
+                                   Text="探针前景色"
                                    Margin="0"
                                    Style="{StaticResource OptionSubHeaderTextStyle}"/>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Inactive"/>
+                            <TextBlock Width="150" Text="未激活"/>
                             <TextBox Name="ForegroundColor_Probe_Inactive"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Probe_Inactive, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Up"/>
+                            <TextBlock Width="150" Text="在线"/>
                             <TextBox Name="ForegroundColor_Probe_Up"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Probe_Up, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Down"/>
+                            <TextBlock Width="150" Text="离线"/>
                             <TextBox Name="ForegroundColor_Probe_Down"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Probe_Down, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Indeterminate"/>
+                            <TextBlock Width="150" Text="不确定"/>
                             <TextBox Name="ForegroundColor_Probe_Indeterminate"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Probe_Indeterminate, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Error"/>
+                            <TextBlock Width="150" Text="错误"/>
                             <TextBox Name="ForegroundColor_Probe_Error"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Probe_Error, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
@@ -795,31 +796,31 @@
                         <!-- Statistics foreground colors -->
                         <Separator DockPanel.Dock="Top" Height="1" Width="20" Background="Transparent" Margin="0,20,0,0"/>
                         <TextBlock DockPanel.Dock="Top"
-                                   Text="Statistics Foreground"
+                                   Text="统计信息前景色"
                                    Margin="0"
                                    Style="{StaticResource OptionSubHeaderTextStyle}"/>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Inactive"/>
+                            <TextBlock Width="150" Text="未激活"/>
                             <TextBox Name="ForegroundColor_Stats_Inactive"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Stats_Inactive, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Up"/>
+                            <TextBlock Width="150" Text="在线"/>
                             <TextBox Name="ForegroundColor_Stats_Up"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Stats_Up, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Down"/>
+                            <TextBlock Width="150" Text="离线"/>
                             <TextBox Name="ForegroundColor_Stats_Down"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Stats_Down, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Indeterminate"/>
+                            <TextBlock Width="150" Text="不确定"/>
                             <TextBox Name="ForegroundColor_Stats_Indeterminate"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Stats_Indeterminate, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,10">
-                            <TextBlock Width="150" Text="Error"/>
+                            <TextBlock Width="150" Text="错误"/>
                             <TextBox Name="ForegroundColor_Stats_Error"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Stats_Error, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
@@ -827,31 +828,31 @@
                         <!-- Alias foreground colors -->
                         <Separator DockPanel.Dock="Top" Height="1" Width="20" Background="Transparent" Margin="0,20,0,0"/>
                         <TextBlock DockPanel.Dock="Top"
-                                   Text="Alias Foreground"
+                                   Text="别名前景色"
                                    Margin="0"
                                    Style="{StaticResource OptionSubHeaderTextStyle}"/>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Inactive"/>
+                            <TextBlock Width="150" Text="未激活"/>
                             <TextBox Name="ForegroundColor_Alias_Inactive"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Alias_Inactive, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Up"/>
+                            <TextBlock Width="150" Text="在线"/>
                             <TextBox Name="ForegroundColor_Alias_Up"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Alias_Up, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Down"/>
+                            <TextBlock Width="150" Text="离线"/>
                             <TextBox Name="ForegroundColor_Alias_Down"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Alias_Down, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Width="150" Text="Indeterminate"/>
+                            <TextBlock Width="150" Text="不确定"/>
                             <TextBox Name="ForegroundColor_Alias_Indeterminate"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Alias_Indeterminate, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,10">
-                            <TextBlock Width="150" Text="Error"/>
+                            <TextBlock Width="150" Text="错误"/>
                             <TextBox Name="ForegroundColor_Alias_Error"/>
                             <Border Background="{Binding ElementName=ForegroundColor_Alias_Error, Path=Text, Converter={StaticResource StringToBrushConverter}}"/>
                         </StackPanel>
@@ -861,7 +862,7 @@
                             <Button Style="{StaticResource ButtonStandardStyle}"
                                     Click="RestoreDefaultColors_Click"
                                     Padding="15,5"
-                                    Content="Restore Defaults"
+                                    Content="恢复默认值"
                                     HorizontalAlignment="Left"/>
                         </Grid>
                     </DockPanel>
@@ -876,7 +877,7 @@
             <DockPanel Margin="9" HorizontalAlignment="Right">
                 <CheckBox DockPanel.Dock="Top"
                           Name="SaveAsDefaults"
-                          Content="Save as vmPing defaults"
+                          Content="保存为默认设置"
                           FontSize="13"
                           Foreground="#111"
                           HorizontalAlignment="Right"/>
@@ -886,11 +887,11 @@
                             Margin="0,0,9,0"
                             IsDefault="True"
                             Width="85"
-                            Content="OK"/>
+                            Content="确定"/>
                     <Button Style="{StaticResource ButtonStandardStyle}"
                             IsCancel="True"
                             Width="85"
-                            Content="Cancel"/>
+                            Content="取消"/>
                 </StackPanel>
             </DockPanel>
         </Border>

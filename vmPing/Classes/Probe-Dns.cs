@@ -15,7 +15,7 @@ namespace vmPing.Classes
 
             try
             {
-                AddHistory($"[\u2022] Resolving {Hostname}:{Environment.NewLine}");
+                AddHistory($"[\u2022] 正在解析 {Hostname}:{Environment.NewLine}");
                 switch (Uri.CheckHostName(Hostname))
                 {
                     case UriHostNameType.IPv4:
@@ -40,13 +40,13 @@ namespace vmPing.Classes
                     default:
                         throw new Exception();
                 }
-                AddHistory($"{Environment.NewLine}{Environment.NewLine}\u2605 Done");
+                AddHistory($"{Environment.NewLine}{Environment.NewLine}\u2605 完成");
             }
             catch
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    AddHistory($"{Environment.NewLine}\u2605 Unable to resolve hostname");
+                    AddHistory($"{Environment.NewLine}\u2605 无法解析主机名");
                 }
             }
             finally

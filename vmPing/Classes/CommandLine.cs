@@ -37,7 +37,7 @@ namespace vmPing.Classes
                         }
                         else
                         {
-                            errors.AppendLine($"-i: Ping interval must be between {MinInterval} and {MaxInterval}.");
+                            errors.AppendLine($"-i: Ping 间隔必须在 {MinInterval} 到 {MaxInterval} 之间。");
                         }
                         break;
 
@@ -52,7 +52,7 @@ namespace vmPing.Classes
                         }
                         else
                         {
-                            errors.AppendLine($"-w: Ping timeout must be between {MinTimeout} and {MaxTimeout}.");
+                            errors.AppendLine($"-w: Ping 超时必须在 {MinTimeout} 到 {MaxTimeout} 之间。");
                         }
                         break;
 
@@ -101,7 +101,7 @@ namespace vmPing.Classes
                 long length = new FileInfo(path).Length;
                 if (length > MaxHostFileSize)
                 {
-                    ShowErrorDialog($"\"{path}\" is too large. The maximum file size is {MaxHostFileSize / 1024} KB.");
+                    ShowErrorDialog($"\"{path}\" 文件过大。最大文件大小为 {MaxHostFileSize / 1024} KB。");
                     Application.Current.Shutdown();
                     return new List<string>();
                 }
@@ -119,7 +119,7 @@ namespace vmPing.Classes
             }
             catch (Exception ex)
             {
-                ShowErrorDialog($"Unable to parse \"{path}\": {ex.Message}");
+                ShowErrorDialog($"无法解析 \"{path}\": {ex.Message}");
                 Application.Current.Shutdown();
                 return new List<string>();
             }
