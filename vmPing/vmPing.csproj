@@ -279,6 +279,7 @@
     <Compile Include="Classes\Constants.cs" />
     <Compile Include="Classes\DatabaseService.cs" />
     <Compile Include="Classes\DatabaseService-Queries.cs" />
+    <Compile Include="Classes\DatabaseService-Statistics.cs" />
     <Compile Include="UI\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
