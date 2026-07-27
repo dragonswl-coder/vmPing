@@ -259,8 +259,7 @@
                                     <DataGridTextColumn Header="最小延迟" Binding="{Binding MinRtt}" Width="80"/>
                                     <DataGridTextColumn Header="最大延迟" Binding="{Binding MaxRtt}" Width="80"/>
                                     <DataGridTextColumn Header="平均延迟" Binding="{Binding AvgRtt, StringFormat=F1}" Width="80"/>
-                                    <DataGridTextColumn Header="丢包率" Binding="{Binding LossRate, StringFormat=F1}" Width="80"/>
-                                    <DataGridTextColumn Header="在线率" Binding="{Binding UptimeRate, StringFormat=F1}" Width="80"/>
+                                    <DataGridTextColumn Header="丢包率" Binding="{Binding LossRate, StringFormat={}{0:F2}%}" Width="80"/>
                                     <DataGridTextColumn Header="最后活动" Binding="{Binding LastActivity}" Width="*"/>
                                 </DataGrid.Columns>
                             </DataGrid>
