@@ -38,6 +38,12 @@ namespace vmPing.UI
             LoadFavorites();
             LoadAliases();
             Configuration.Load();
+
+            if (ApplicationOptions.IsDatabaseEnabled && !string.IsNullOrEmpty(ApplicationOptions.DatabasePath))
+            {
+                DatabaseService.Initialize(ApplicationOptions.DatabasePath);
+            }
+
             RefreshGuiState();
 
             // Set items source for main GUI ItemsControl.
@@ -554,6 +560,21 @@ namespace vmPing.UI
             };
             manageAliasesWindow.ShowDialog();
             LoadAliases();
+        }
+
+        private void DatabaseLogMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ApplicationOptions.IsDatabaseEnabled || string.IsNullOrEmpty(ApplicationOptions.DatabasePath))
+            {
+                DialogWindow.ErrorWindow("数据库功能未启用。请在选项 > 日志中启用并配置数据库路径。").ShowDialog();
+                return;
+            }
+
+            var dbWindow = new LogAnalysisWindow
+            {
+                Owner = this
+            };
+            dbWindow.ShowDialog();
         }
 
         private void PopupAlways_Click(object sender, RoutedEventArgs e)

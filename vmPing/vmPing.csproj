@@ -161,8 +161,8 @@
     <Compile Include="UI\UsageWindow.xaml.cs">
       <DependentUpon>UsageWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\DatabaseWindow.xaml.cs">
-      <DependentUpon>DatabaseWindow.xaml</DependentUpon>
+    <Compile Include="UI\LogAnalysisWindow.xaml.cs">
+      <DependentUpon>LogAnalysisWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="ResourceDictionaries\ButtonStyle.xaml">
       <SubType>Designer</SubType>
@@ -319,7 +319,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\DatabaseWindow.xaml">
+    <Page Include="UI\LogAnalysisWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
