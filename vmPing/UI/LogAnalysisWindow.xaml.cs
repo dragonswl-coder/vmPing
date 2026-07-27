@@ -265,8 +265,18 @@ namespace vmPing.UI
 
             var points = buckets.Select(b => DateTimeAxis.CreateDataPoint(b.BucketTime, b.AvgRtt)).ToList();
 
-            // chartType 0 = line, 1 or 2 = area
-            if (chartType >= 1)
+            if (chartType == 2)
+            {
+                var barSeries = new LinearBarSeries
+                {
+                    FillColor = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
+                    StrokeColor = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
+                    BarWidth = (maxTime - minTime).TotalDays / Math.Max(buckets.Count, 1) * 0.8
+                };
+                foreach (var p in points) barSeries.Points.Add(p);
+                model.Series.Add(barSeries);
+            }
+            else if (chartType == 1)
             {
                 var areaSeries = new AreaSeries
                 {
