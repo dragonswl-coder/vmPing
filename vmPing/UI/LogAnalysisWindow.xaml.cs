@@ -147,7 +147,7 @@ namespace vmPing.UI
             var from = GetFromDate();
             var to = GetToDate();
 
-            var stats = DatabaseService.GetOverviewStatistics(from, to);
+            var stats = DatabaseService.GetOverviewStatistics(_currentHost, from, to);
             CardHostCount.Text = stats.HostCount.ToString();
             CardTotalRecords.Text = stats.TotalRecords.ToString("N0");
             CardAvgRtt.Text = $"{stats.AvgRtt:F0} ms";
@@ -159,7 +159,7 @@ namespace vmPing.UI
             var series = DatabaseService.GetRttTimeSeries(_currentHost, from, to, 60);
             OverviewChart.Model = CreateRttModel(series, 1);
 
-            var statusChanges = DatabaseService.GetStatusChanges(null, from, to);
+            var statusChanges = DatabaseService.GetStatusChanges(_currentHost, from, to);
             var recent = statusChanges.Take(50).ToList();
             OverviewStatusGrid.ItemsSource = recent;
             OverviewEmptyText.Visibility = recent.Count == 0 ? Visibility.Visible : Visibility.Collapsed;

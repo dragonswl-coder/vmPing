@@ -31,7 +31,7 @@ namespace vmPing.Classes
 
     public static partial class DatabaseService
     {
-        public static OverviewStats GetOverviewStatistics(DateTime? from, DateTime? to)
+        public static OverviewStats GetOverviewStatistics(string hostname, DateTime? from, DateTime? to)
         {
             var stats = new OverviewStats();
             if (string.IsNullOrEmpty(_connectionString)) return stats;
@@ -43,8 +43,10 @@ namespace vmPing.Classes
                     conn.Open();
                     using (var cmd = conn.CreateCommand())
                     {
-                        var where = BuildWhereClause(null, from, to);
+                        var where = BuildWhereClause(hostname, from, to);
                         cmd.CommandText = "SELECT COUNT(DISTINCT hostname), COUNT(*) FROM ping_log" + where;
+                        if (!string.IsNullOrEmpty(hostname))
+                            cmd.Parameters.AddWithValue("@h", hostname);
                         AddDateParams(cmd, from, to);
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -57,25 +59,36 @@ namespace vmPing.Classes
 
                         cmd.Parameters.Clear();
                         cmd.CommandText = "SELECT COUNT(*) FROM status_change" + where;
+                        if (!string.IsNullOrEmpty(hostname))
+                            cmd.Parameters.AddWithValue("@h", hostname);
                         AddDateParams(cmd, from, to);
                         stats.StatusChangeCount = Convert.ToInt32(cmd.ExecuteScalar());
                     }
                 }
 
-                var hosts = GetHosts();
-                double totalRtt = 0;
-                int rttCount = 0;
-                int timeoutTotal = 0;
-                foreach (var host in hosts)
+                if (!string.IsNullOrEmpty(hostname))
                 {
-                    var hs = GetHostStatistics(host, from, to);
-                    if (hs.TotalPings == 0) continue;
-                    totalRtt += hs.AvgRtt * (hs.TotalPings - hs.TimeoutCount);
-                    rttCount += (int)(hs.TotalPings - hs.TimeoutCount);
-                    timeoutTotal += hs.TimeoutCount;
+                    var hs = GetHostStatistics(hostname, from, to);
+                    stats.AvgRtt = hs.AvgRtt;
+                    stats.LossRate = hs.LossRate;
                 }
-                stats.AvgRtt = rttCount > 0 ? totalRtt / rttCount : 0;
-                stats.LossRate = stats.TotalRecords > 0 ? (double)timeoutTotal / stats.TotalRecords * 100 : 0;
+                else
+                {
+                    var hosts = GetHosts();
+                    double totalRtt = 0;
+                    int rttCount = 0;
+                    int timeoutTotal = 0;
+                    foreach (var host in hosts)
+                    {
+                        var hs = GetHostStatistics(host, from, to);
+                        if (hs.TotalPings == 0) continue;
+                        totalRtt += hs.AvgRtt * (hs.TotalPings - hs.TimeoutCount);
+                        rttCount += (int)(hs.TotalPings - hs.TimeoutCount);
+                        timeoutTotal += hs.TimeoutCount;
+                    }
+                    stats.AvgRtt = rttCount > 0 ? totalRtt / rttCount : 0;
+                    stats.LossRate = stats.TotalRecords > 0 ? (double)timeoutTotal / stats.TotalRecords * 100 : 0;
+                }
             }
             catch (Exception ex)
             {
