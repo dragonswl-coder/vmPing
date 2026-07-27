@@ -140,7 +140,7 @@ namespace vmPing.Classes
                                     Hostname = rdr.GetString(2),
                                     Alias = rdr.IsDBNull(3) ? "" : rdr.GetString(3),
                                     Output = output,
-                                    IsTimeout = output.Contains("超时"),
+                                    IsTimeout = output.Contains("超时") || output.Contains("关闭"),
                                     IsError = output.Contains("错误") && !output.Contains("成功")
                                 };
                                 var m = RttRegex.Match(output);

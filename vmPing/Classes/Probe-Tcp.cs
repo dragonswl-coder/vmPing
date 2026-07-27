@@ -267,6 +267,9 @@ namespace vmPing.Classes
 
             // If enabled, log output.
             WriteToLog(sb.ToString());
+
+            // If enabled, write to database.
+            WriteToDatabase(sb.ToString());
         }
     }
 }
