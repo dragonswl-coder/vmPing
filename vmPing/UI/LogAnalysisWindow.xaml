@@ -21,6 +21,16 @@
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <classes:RttToColorConverter x:Key="RttToColorConverter"/>
+            <Style TargetType="DataGridCell">
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#3b82f6"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderBrush" Value="#3b82f6"/>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -194,6 +204,10 @@
                                             <DataTrigger Binding="{Binding RttParsed}" Value="{x:Null}">
                                                 <Setter Property="Background" Value="Transparent"/>
                                             </DataTrigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="#3b82f6"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
                                         </Style.Triggers>
                                     </Style>
                                 </DataGrid.Resources>
