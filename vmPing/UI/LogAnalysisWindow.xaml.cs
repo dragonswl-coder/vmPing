@@ -267,12 +267,21 @@ namespace vmPing.UI
 
             if (chartType == 2)
             {
-                var barWidth = (maxTime - minTime).TotalDays / Math.Max(buckets.Count, 1) * 0.8;
+                double minInterval = double.MaxValue;
+                for (int i = 1; i < buckets.Count; i++)
+                {
+                    var interval = (buckets[i].BucketTime - buckets[i - 1].BucketTime).TotalDays;
+                    if (interval > 0 && interval < minInterval)
+                        minInterval = interval;
+                }
+                if (minInterval == double.MaxValue || minInterval <= 0)
+                    minInterval = 1.0 / 24;
+                var barWidth = minInterval * 0.7;
                 var barSeries = new RectangleBarSeries
                 {
                     FillColor = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
-                    StrokeColor = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
-                    StrokeThickness = 0
+                    StrokeColor = OxyColors.White,
+                    StrokeThickness = 1
                 };
                 foreach (var b in buckets)
                 {
