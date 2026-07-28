@@ -640,6 +640,35 @@
                                     HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Grid>
+
+                    <!-- Separator -->
+                    <Separator DockPanel.Dock="Top" Height="1" Background="Transparent" Margin="0,20,0,0"/>
+
+                    <!-- Database storage -->
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15,0,0">
+                        <CheckBox Name="IsDatabaseEnabled"
+                                  Content="将 Ping 输出和状态变更记录到 SQLite 数据库"
+                                  IsChecked="True"/>
+                        <Label Style="{StaticResource LabelToolTip}">
+                            启用后，所有 Ping 输出和状态变更将保存到 SQLite 数据库文件。
+                            可使用任何 SQLite 工具（如 DB Browser）查看数据。
+                        </Label>
+                    </StackPanel>
+                    <Grid DockPanel.Dock="Top"
+                          Margin="30,10,0,0"
+                          VerticalAlignment="Top"
+                          Visibility="{Binding IsChecked, ElementName=IsDatabaseEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <TextBlock Text="数据库路径"/>
+                            <TextBox Name="DatabasePath"
+                                     Margin="0,4,0,8"/>
+                            <Button Style="{StaticResource ButtonStandardStyle}"
+                                    Click="BrowseDatabasePath_Click"
+                                    Width="85"
+                                    Content="浏览..."
+                                    HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Grid>
                 </DockPanel>
             </TabItem>
 

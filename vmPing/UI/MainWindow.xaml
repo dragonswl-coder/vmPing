@@ -154,6 +154,12 @@
                         <Image Source="{StaticResource icon.status-history}" VerticalAlignment="Center" Width="16" Height="16"/>
                     </MenuItem.Icon>
                 </MenuItem>
+                <!-- Menu: Database log -->
+                <MenuItem Name="DatabaseLogMenu" Header="数据库日志" Click="DatabaseLogMenu_Click">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource icon.file-code}" VerticalAlignment="Center" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <!-- Menu: Input addresses-->
                 <MenuItem Name="MultiInputMenu" Header="输入地址" InputGestureText="F2">
                     <MenuItem.Icon>

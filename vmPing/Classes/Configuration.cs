@@ -190,6 +190,8 @@ namespace vmPing.Classes
                 Node("LogPath", ApplicationOptions.LogPath),
                 Node("IsLogStatusChangesEnabled", ApplicationOptions.IsLogStatusChangesEnabled),
                 Node("LogStatusChangesPath", ApplicationOptions.LogStatusChangesPath),
+                Node("IsDatabaseEnabled", ApplicationOptions.IsDatabaseEnabled),
+                Node("DatabasePath", ApplicationOptions.DatabasePath),
                 Node("IsAlwaysOnTopEnabled", ApplicationOptions.IsAlwaysOnTopEnabled),
                 Node("IsMinimizeToTrayEnabled", ApplicationOptions.IsMinimizeToTrayEnabled),
                 Node("IsExitToTrayEnabled", ApplicationOptions.IsExitToTrayEnabled)
@@ -253,6 +255,19 @@ namespace vmPing.Classes
                 LoadAppOptions(xd.SelectNodes("/vmping/configuration/option"));
                 LoadColors(xd.SelectNodes("/vmping/colors/option"));
                 ApplicationOptions.UpdatePingOptions();
+
+                if (string.IsNullOrEmpty(ApplicationOptions.DatabasePath))
+                {
+                    ApplicationOptions.DatabasePath = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        "vmPing",
+                        "vmping.db");
+                }
+
+                if (ApplicationOptions.IsDatabaseEnabled && !string.IsNullOrEmpty(ApplicationOptions.DatabasePath))
+                {
+                    DatabaseService.Initialize(ApplicationOptions.DatabasePath);
+                }
             }
 
             catch (Exception ex)
@@ -485,6 +500,14 @@ namespace vmPing.Classes
             if (options.TryGetValue("IsExitToTrayEnabled", out optionValue))
             {
                 ApplicationOptions.IsExitToTrayEnabled = bool.Parse(optionValue);
+            }
+            if (options.TryGetValue("IsDatabaseEnabled", out optionValue))
+            {
+                ApplicationOptions.IsDatabaseEnabled = bool.Parse(optionValue);
+            }
+            if (options.TryGetValue("DatabasePath", out optionValue))
+            {
+                ApplicationOptions.DatabasePath = optionValue;
             }
         }
     }

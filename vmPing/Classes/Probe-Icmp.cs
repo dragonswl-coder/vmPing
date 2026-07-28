@@ -260,6 +260,9 @@ namespace vmPing.Classes
 
             // If enabled, log output.
             WriteToLog(output);
+
+            // If enabled, write to database.
+            WriteToDatabase(output);
         }
     }
 }

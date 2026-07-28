@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Media;
@@ -68,6 +69,12 @@ namespace vmPing.Classes
         public static string LogPath { get; set; }
         public static bool IsLogStatusChangesEnabled { get; set; } = false;
         public static string LogStatusChangesPath { get; set; }
+
+        // Database (SQLite).
+        public static bool IsDatabaseEnabled { get; set; } = true;
+        public static string DatabasePath { get; set; } = System.IO.Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "vmping.db");
         
         // Startup options.
         public static StartMode InitialStartMode { get; set; } = StartMode.Blank;

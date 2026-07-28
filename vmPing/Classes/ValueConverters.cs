@@ -425,4 +425,27 @@ namespace vmPing.Classes
             return Binding.DoNothing;
         }
     }
+
+    public class RttToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is int rtt))
+                return Brushes.Transparent;
+
+            if (rtt < 0)
+                return new SolidColorBrush(Color.FromRgb(220, 220, 220));
+
+            if (rtt < 50)
+                return new SolidColorBrush(Color.FromRgb(200, 239, 200));
+            if (rtt < 150)
+                return new SolidColorBrush(Color.FromRgb(255, 245, 190));
+            return new SolidColorBrush(Color.FromRgb(255, 200, 200));
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Binding.DoNothing;
+        }
+    }
 }

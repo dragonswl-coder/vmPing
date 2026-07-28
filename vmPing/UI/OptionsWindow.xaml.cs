@@ -155,6 +155,8 @@ namespace vmPing.UI
             IsLogOutputEnabled.IsChecked = ApplicationOptions.IsLogOutputEnabled;
             LogStatusChangesPath.Text = ApplicationOptions.LogStatusChangesPath;
             IsLogStatusChangesEnabled.IsChecked = ApplicationOptions.IsLogStatusChangesEnabled;
+            DatabasePath.Text = ApplicationOptions.DatabasePath;
+            IsDatabaseEnabled.IsChecked = ApplicationOptions.IsDatabaseEnabled;
         }
 
         private void PopulateAdvancedOptions()
@@ -601,6 +603,34 @@ namespace vmPing.UI
                 ApplicationOptions.IsLogStatusChangesEnabled = false;
             }
 
+            if (IsDatabaseEnabled.IsChecked == true)
+            {
+                if (string.IsNullOrWhiteSpace(DatabasePath.Text))
+                {
+                    ShowError("请输入有效的数据库路径。", LogOutputTab, DatabasePath);
+                    return false;
+                }
+
+                var dbDir = Path.GetDirectoryName(DatabasePath.Text);
+                if (!string.IsNullOrEmpty(dbDir) && !Directory.Exists(dbDir))
+                {
+                    try { Directory.CreateDirectory(dbDir); }
+                    catch
+                    {
+                        ShowError("无法创建数据库目录。请输入有效的路径。", LogOutputTab, DatabasePath);
+                        return false;
+                    }
+                }
+
+                ApplicationOptions.IsDatabaseEnabled = true;
+                ApplicationOptions.DatabasePath = DatabasePath.Text;
+                DatabaseService.Initialize(ApplicationOptions.DatabasePath);
+            }
+            else
+            {
+                ApplicationOptions.IsDatabaseEnabled = false;
+            }
+
             return true;
         }
 
@@ -781,6 +811,20 @@ namespace vmPing.UI
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     LogStatusChangesPath.Text = dialog.SelectedPath + "\\vmping-status.txt";
+                }
+            }
+        }
+
+        private void BrowseDatabasePath_Click(object sender, RoutedEventArgs e)
+        {
+            using (var dialog = new System.Windows.Forms.SaveFileDialog())
+            {
+                dialog.Filter = "SQLite 数据库 (*.db)|*.db|所有文件 (*.*)|*.*";
+                dialog.FileName = "vmping.db";
+                dialog.Title = "选择数据库文件保存位置";
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    DatabasePath.Text = dialog.FileName;
                 }
             }
         }

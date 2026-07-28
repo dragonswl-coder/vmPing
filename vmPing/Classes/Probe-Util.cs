@@ -187,6 +187,16 @@ namespace vmPing.Classes
             }
         }
 
+        private void WriteToDatabase(string output)
+        {
+            if (!ApplicationOptions.IsDatabaseEnabled || string.IsNullOrEmpty(ApplicationOptions.DatabasePath))
+            {
+                return;
+            }
+
+            DatabaseService.InsertPingLog(Hostname, Alias, output);
+        }
+
         private void WriteToStatusChangesLog(StatusChangeLog status)
         {
             if (!ApplicationOptions.IsLogStatusChangesEnabled || string.IsNullOrEmpty(ApplicationOptions.LogStatusChangesPath))
@@ -261,6 +271,11 @@ namespace vmPing.Classes
                 {
                     WriteToStatusChangesLog(status);
                 }
+            }
+
+            if (ApplicationOptions.IsDatabaseEnabled && !string.IsNullOrEmpty(ApplicationOptions.DatabasePath))
+            {
+                DatabaseService.InsertStatusChange(Hostname, Alias, status.StatusAsString);
             }
 
             if ((ApplicationOptions.IsAudioDownAlertEnabled) && (status.Status == ProbeStatus.Down))
