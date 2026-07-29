@@ -166,7 +166,6 @@
                             <ComboBox Name="ChartTypeSelector" SelectedIndex="1" Width="100" SelectionChanged="ChartTypeSelector_SelectionChanged" VerticalAlignment="Center">
                                 <ComboBoxItem Content="折线"/>
                                 <ComboBoxItem Content="面积"/>
-                                <ComboBoxItem Content="柱状"/>
                             </ComboBox>
                         </StackPanel>
 
