@@ -51,7 +51,8 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
                         <Button Name="RefreshButton" Content="刷新" Click="RefreshButton_Click" Style="{StaticResource ButtonPrimary}" Padding="16,6" Margin="0,0,8,0"/>
-                        <Button Name="ExportButton" Content="导出 CSV" Click="ExportButton_Click" Style="{StaticResource ButtonDefault}" Padding="16,6"/>
+                        <Button Name="ExportButton" Content="导出 CSV" Click="ExportButton_Click" Style="{StaticResource ButtonDefault}" Padding="16,6" Margin="0,0,8,0"/>
+                        <Button Name="ClearButton" Content="清除记录" Click="ClearButton_Click" Style="{StaticResource ButtonDefault}" Padding="16,6"/>
                     </StackPanel>
                 </DockPanel>
             </Border>

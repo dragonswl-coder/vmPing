@@ -33,7 +33,7 @@ namespace vmPing.Classes
     public class HostDisplayItem
     {
         public string Hostname { get; set; }
-        public string DisplayName => Hostname;
+        public string DisplayName { get; set; }
     }
 
     public class StatusChangeEntry
@@ -298,6 +298,48 @@ namespace vmPing.Classes
                             cmd.Parameters.AddWithValue("@h", hostname);
                         AddDateParams(cmd, from, to);
                         return (long)cmd.ExecuteScalar();
+                    }
+                }
+            }
+            catch { return 0; }
+        }
+
+        public static int DeletePingLogs(string hostname, DateTime? from, DateTime? to)
+        {
+            if (string.IsNullOrEmpty(_connectionString)) return 0;
+            try
+            {
+                using (var conn = new SQLiteConnection(_connectionString))
+                {
+                    conn.Open();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "DELETE FROM ping_log" + BuildWhereClause(hostname, from, to);
+                        if (!string.IsNullOrEmpty(hostname))
+                            cmd.Parameters.AddWithValue("@h", hostname);
+                        AddDateParams(cmd, from, to);
+                        return cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch { return 0; }
+        }
+
+        public static int DeleteStatusChanges(string hostname, DateTime? from, DateTime? to)
+        {
+            if (string.IsNullOrEmpty(_connectionString)) return 0;
+            try
+            {
+                using (var conn = new SQLiteConnection(_connectionString))
+                {
+                    conn.Open();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "DELETE FROM status_change" + BuildWhereClause(hostname, from, to);
+                        if (!string.IsNullOrEmpty(hostname))
+                            cmd.Parameters.AddWithValue("@h", hostname);
+                        AddDateParams(cmd, from, to);
+                        return cmd.ExecuteNonQuery();
                     }
                 }
             }

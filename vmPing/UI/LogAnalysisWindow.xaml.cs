@@ -41,11 +41,10 @@ namespace vmPing.UI
         private void LoadHosts()
         {
             var hosts = DatabaseService.GetHosts();
-            HostSelector.ItemsSource = hosts.Select(h => new HostDisplayItem { Hostname = h }).ToList();
-            if (hosts.Count > 0)
-                HostSelector.SelectedIndex = 0;
-            else
-                UpdateStatusBar(0, 0);
+            var items = new List<HostDisplayItem> { new HostDisplayItem { Hostname = null, DisplayName = "全部主机" } };
+            items.AddRange(hosts.Select(h => new HostDisplayItem { Hostname = h, DisplayName = h }));
+            HostSelector.ItemsSource = items;
+            HostSelector.SelectedIndex = 0;
         }
 
         private void UpdateStatusBar(int hostCount, long recordCount)
@@ -86,7 +85,7 @@ namespace vmPing.UI
             if (HostSelector.SelectedItem is HostDisplayItem item)
             {
                 _currentHost = item.Hostname;
-                HeaderSubtitle.Text = _currentHost;
+                HeaderSubtitle.Text = string.IsNullOrEmpty(_currentHost) ? "全部主机" : _currentHost;
             }
         }
 
@@ -417,6 +416,42 @@ namespace vmPing.UI
             {
                 _currentPage++;
                 LoadRecordsPage();
+            }
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            var from = GetFromDate();
+            var to = GetToDate();
+            var hostLabel = string.IsNullOrEmpty(_currentHost) ? "全部主机" : _currentHost;
+
+            var pingCount = DatabaseService.GetPingLogCount(_currentHost, from, to);
+            var statusChanges = DatabaseService.GetStatusChanges(_currentHost, from, to);
+
+            if (pingCount == 0 && statusChanges.Count == 0)
+            {
+                ShowGrowl("所选范围内无记录可清除", true);
+                return;
+            }
+
+            var fromStr = from?.ToString("yyyy-MM-dd") ?? "最早";
+            var toStr = ToDatePicker.SelectedDate?.ToString("yyyy-MM-dd") ?? "至今";
+            var msg = $"将删除 [{hostLabel}] 在 [{fromStr} ~ {toStr}] 内的记录：\n\n  Ping 记录: {pingCount:N0} 条\n  状态变更: {statusChanges.Count} 条\n\n此操作不可撤销，确认删除？";
+
+            if (MessageBox.Show(msg, "确认清除", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes)
+                return;
+
+            try
+            {
+                var deletedPings = DatabaseService.DeletePingLogs(_currentHost, from, to);
+                var deletedChanges = DatabaseService.DeleteStatusChanges(_currentHost, from, to);
+                ShowGrowl($"已删除 {deletedPings:N0} 条 Ping 记录, {deletedChanges} 条状态变更");
+                LoadHosts();
+                LoadCurrentTab();
+            }
+            catch (Exception ex)
+            {
+                ShowGrowl($"清除失败: {ex.Message}", true);
             }
         }
 
