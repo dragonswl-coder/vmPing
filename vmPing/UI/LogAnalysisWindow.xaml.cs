@@ -285,27 +285,17 @@ namespace vmPing.UI
 
             if (chartType == 2)
             {
-                double minInterval = double.MaxValue;
-                for (int i = 1; i < buckets.Count; i++)
-                {
-                    var interval = (buckets[i].BucketTime - buckets[i - 1].BucketTime).TotalDays;
-                    if (interval > 0 && interval < minInterval)
-                        minInterval = interval;
-                }
-                if (minInterval == double.MaxValue || minInterval <= 0)
-                    minInterval = 1.0 / 24;
-                var barWidth = minInterval * 0.7;
-                var barSeries = new RectangleBarSeries
+                var totalSpan = (maxTime - minTime).TotalDays;
+                var barWidth = totalSpan / Math.Max(buckets.Count, 1) * 0.7;
+                if (barWidth <= 0) barWidth = 0.01;
+                var barSeries = new LinearBarSeries
                 {
                     FillColor = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
-                    StrokeColor = OxyColors.White,
-                    StrokeThickness = 1
+                    StrokeColor = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
+                    StrokeThickness = 0,
+                    BarWidth = barWidth
                 };
-                foreach (var b in buckets)
-                {
-                    var x = DateTimeAxis.ToDouble(b.BucketTime);
-                    barSeries.Items.Add(new RectangleBarItem(x - barWidth / 2, 0, x + barWidth / 2, b.AvgRtt));
-                }
+                foreach (var p in points) barSeries.Points.Add(p);
                 model.Series.Add(barSeries);
             }
             else if (chartType == 1)
