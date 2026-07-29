@@ -288,14 +288,29 @@ namespace vmPing.UI
                 var totalSpan = (maxTime - minTime).TotalDays;
                 var barWidth = totalSpan / Math.Max(buckets.Count, 1) * 0.7;
                 if (barWidth <= 0) barWidth = 0.01;
-                var barSeries = new LinearBarSeries
+                var halfW = barWidth / 2;
+
+                var barSeries = new AreaSeries
                 {
-                    FillColor = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
-                    StrokeColor = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
-                    StrokeThickness = 0,
-                    BarWidth = barWidth
+                    Color = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
+                    Fill = OxyColor.FromRgb(0x3b, 0x82, 0xf6),
+                    MarkerType = MarkerType.None
                 };
-                foreach (var p in points) barSeries.Points.Add(p);
+
+                foreach (var b in buckets)
+                {
+                    var x = DateTimeAxis.ToDouble(b.BucketTime);
+                    var rtt = b.AvgRtt;
+                    barSeries.Points.Add(new DataPoint(x - halfW, 0));
+                    barSeries.Points.Add(new DataPoint(x - halfW, rtt));
+                    barSeries.Points.Add(new DataPoint(x + halfW, rtt));
+                    barSeries.Points.Add(new DataPoint(x + halfW, 0));
+                    barSeries.Points2.Add(new DataPoint(x - halfW, 0));
+                    barSeries.Points2.Add(new DataPoint(x - halfW, 0));
+                    barSeries.Points2.Add(new DataPoint(x + halfW, 0));
+                    barSeries.Points2.Add(new DataPoint(x + halfW, 0));
+                }
+
                 model.Series.Add(barSeries);
             }
             else if (chartType == 1)
