@@ -1,5 +1,6 @@
 using System;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 
 namespace vmPing.Classes
@@ -44,12 +45,51 @@ namespace vmPing.Classes
                     ";
                     cmd.ExecuteNonQuery();
                 }
+
+                EnsureRttColumn(conn);
+            }
+        }
+
+        private static void EnsureRttColumn(SQLiteConnection conn)
+        {
+            bool hasRttColumn = false;
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "PRAGMA table_info(ping_log)";
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        if (rdr.GetString(1).Equals("rtt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            hasRttColumn = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!hasRttColumn)
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "ALTER TABLE ping_log ADD COLUMN rtt INTEGER";
+                    cmd.ExecuteNonQuery();
+                }
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "UPDATE ping_log SET rtt = CAST(substr(output, instr(output, '[') + 1) AS INTEGER) WHERE output LIKE '%毫秒]' AND instr(output, '[') > 0";
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
         public static void InsertPingLog(string hostname, string alias, string output)
         {
             if (string.IsNullOrEmpty(_connectionString)) return;
+
+            int? rtt = TryParseRtt(output);
 
             try
             {
@@ -58,16 +98,23 @@ namespace vmPing.Classes
                     conn.Open();
                     using (var cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = "INSERT INTO ping_log (timestamp, hostname, alias, output) VALUES (@t, @h, @a, @o)";
+                        cmd.CommandText = "INSERT INTO ping_log (timestamp, hostname, alias, output, rtt) VALUES (@t, @h, @a, @o, @r)";
                         cmd.Parameters.AddWithValue("@t", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                         cmd.Parameters.AddWithValue("@h", hostname);
                         cmd.Parameters.AddWithValue("@a", alias ?? "");
                         cmd.Parameters.AddWithValue("@o", output);
+                        if (rtt.HasValue)
+                            cmd.Parameters.AddWithValue("@r", rtt.Value);
+                        else
+                            cmd.Parameters.AddWithValue("@r", DBNull.Value);
                         cmd.ExecuteNonQuery();
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"InsertPingLog error: {ex.Message}");
+            }
         }
 
         public static void InsertStatusChange(string hostname, string alias, string status)

@@ -44,7 +44,7 @@ namespace vmPing.Classes
                     using (var cmd = conn.CreateCommand())
                     {
                         var where = BuildWhereClause(hostname, from, to);
-                        cmd.CommandText = "SELECT COUNT(DISTINCT hostname), COUNT(*) FROM ping_log" + where;
+                        cmd.CommandText = "SELECT COUNT(DISTINCT hostname), COUNT(*), AVG(rtt), SUM(CASE WHEN rtt IS NULL THEN 1 ELSE 0 END) FROM ping_log" + where;
                         if (!string.IsNullOrEmpty(hostname))
                             cmd.Parameters.AddWithValue("@h", hostname);
                         AddDateParams(cmd, from, to);
@@ -54,6 +54,9 @@ namespace vmPing.Classes
                             {
                                 stats.HostCount = rdr.GetInt32(0);
                                 stats.TotalRecords = rdr.GetInt64(1);
+                                stats.AvgRtt = rdr.IsDBNull(2) ? 0 : rdr.GetDouble(2);
+                                var timeoutTotal = rdr.IsDBNull(3) ? 0 : rdr.GetInt64(3);
+                                stats.LossRate = stats.TotalRecords > 0 ? (double)timeoutTotal / stats.TotalRecords * 100 : 0;
                             }
                         }
 
@@ -64,30 +67,6 @@ namespace vmPing.Classes
                         AddDateParams(cmd, from, to);
                         stats.StatusChangeCount = Convert.ToInt32(cmd.ExecuteScalar());
                     }
-                }
-
-                if (!string.IsNullOrEmpty(hostname))
-                {
-                    var hs = GetHostStatistics(hostname, from, to);
-                    stats.AvgRtt = hs.AvgRtt;
-                    stats.LossRate = hs.LossRate;
-                }
-                else
-                {
-                    var hosts = GetHosts();
-                    double totalRtt = 0;
-                    int rttCount = 0;
-                    int timeoutTotal = 0;
-                    foreach (var host in hosts)
-                    {
-                        var hs = GetHostStatistics(host, from, to);
-                        if (hs.TotalPings == 0) continue;
-                        totalRtt += hs.AvgRtt * (hs.TotalPings - hs.TimeoutCount);
-                        rttCount += (int)(hs.TotalPings - hs.TimeoutCount);
-                        timeoutTotal += hs.TimeoutCount;
-                    }
-                    stats.AvgRtt = rttCount > 0 ? totalRtt / rttCount : 0;
-                    stats.LossRate = stats.TotalRecords > 0 ? (double)timeoutTotal / stats.TotalRecords * 100 : 0;
                 }
             }
             catch (Exception ex)
@@ -110,45 +89,30 @@ namespace vmPing.Classes
                     using (var cmd = conn.CreateCommand())
                     {
                         var where = BuildWhereClause(hostname, from, to);
-                        cmd.CommandText = "SELECT alias, output, timestamp FROM ping_log" + where + " ORDER BY id ASC";
+                        cmd.CommandText = @"SELECT
+                            COUNT(*),
+                            SUM(CASE WHEN rtt IS NULL THEN 1 ELSE 0 END),
+                            MIN(rtt), MAX(rtt), AVG(rtt),
+                            MAX(timestamp),
+                            (SELECT alias FROM ping_log WHERE hostname = @h ORDER BY id DESC LIMIT 1)
+                        FROM ping_log" + where;
                         cmd.Parameters.AddWithValue("@h", hostname);
                         AddDateParams(cmd, from, to);
 
-                        var rtts = new List<int>();
-                        int timeoutCount = 0;
-                        string lastActivity = "";
-                        string alias = "";
-
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            while (rdr.Read())
+                            if (rdr.Read())
                             {
-                                if (string.IsNullOrEmpty(alias) && !rdr.IsDBNull(0))
-                                    alias = rdr.GetString(0);
-                                var output = rdr.GetString(1);
-                                lastActivity = rdr.GetString(2);
-
-                                var m = RttRegex.Match(output);
-                                if (m.Success)
-                                {
-                                    var val = m.Groups[1].Value;
-                                    rtts.Add(val.StartsWith("<") ? 0 : int.Parse(val));
-                                }
-                                else
-                                {
-                                    timeoutCount++;
-                                }
+                                hs.TotalPings = rdr.GetInt64(0);
+                                hs.TimeoutCount = (int)(rdr.IsDBNull(1) ? 0 : rdr.GetInt64(1));
+                                hs.MinRtt = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2);
+                                hs.MaxRtt = rdr.IsDBNull(3) ? 0 : rdr.GetInt32(3);
+                                hs.AvgRtt = rdr.IsDBNull(4) ? 0 : rdr.GetDouble(4);
+                                hs.LastActivity = rdr.IsDBNull(5) ? "" : rdr.GetString(5);
+                                hs.Alias = rdr.IsDBNull(6) ? "" : rdr.GetString(6);
+                                hs.LossRate = hs.TotalPings > 0 ? (double)hs.TimeoutCount / hs.TotalPings * 100 : 0;
                             }
                         }
-
-                        hs.Alias = alias;
-                        hs.TotalPings = rtts.Count + timeoutCount;
-                        hs.TimeoutCount = timeoutCount;
-                        hs.MinRtt = rtts.Count > 0 ? rtts.Min() : 0;
-                        hs.MaxRtt = rtts.Count > 0 ? rtts.Max() : 0;
-                        hs.AvgRtt = rtts.Count > 0 ? rtts.Average() : 0;
-                        hs.LossRate = hs.TotalPings > 0 ? (double)timeoutCount / hs.TotalPings * 100 : 0;
-                        hs.LastActivity = lastActivity;
                     }
 
                     using (var cmd = conn.CreateCommand())

@@ -63,6 +63,18 @@ namespace vmPing.Classes
     {
         private static readonly Regex RttRegex = new Regex(@"\[(<?\d+)\s*毫秒\]");
 
+        public static int? TryParseRtt(string output)
+        {
+            if (string.IsNullOrEmpty(output)) return null;
+            var m = RttRegex.Match(output);
+            if (m.Success)
+            {
+                var val = m.Groups[1].Value;
+                return val.StartsWith("<") ? 0 : int.Parse(val);
+            }
+            return null;
+        }
+
         public static List<string> GetHosts()
         {
             var hosts = new List<string>();
@@ -120,7 +132,7 @@ namespace vmPing.Classes
                     conn.Open();
                     using (var cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT id, timestamp, hostname, alias, output FROM ping_log"
+                        cmd.CommandText = "SELECT id, timestamp, hostname, alias, output, rtt FROM ping_log"
                             + BuildWhereClause(hostname, from, to)
                             + " ORDER BY id DESC LIMIT @lim OFFSET @off";
                         if (!string.IsNullOrEmpty(hostname))
@@ -143,12 +155,8 @@ namespace vmPing.Classes
                                     IsTimeout = output.Contains("超时") || output.Contains("关闭"),
                                     IsError = output.Contains("错误") && !output.Contains("成功")
                                 };
-                                var m = RttRegex.Match(output);
-                                if (m.Success)
-                                {
-                                    var val = m.Groups[1].Value;
-                                    entry.RttParsed = val.StartsWith("<") ? 0 : int.Parse(val);
-                                }
+                                if (!rdr.IsDBNull(5))
+                                    entry.RttParsed = rdr.GetInt32(5);
                                 logs.Add(entry);
                             }
                         }
@@ -171,58 +179,54 @@ namespace vmPing.Classes
                     conn.Open();
                     using (var cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT id, timestamp, output FROM ping_log"
-                            + BuildWhereClause(hostname, from, to)
-                            + " ORDER BY id ASC";
+                        var clauses = new List<string>();
+                        if (!string.IsNullOrEmpty(hostname)) clauses.Add("hostname = @h");
+                        if (from.HasValue) clauses.Add("timestamp >= @f");
+                        if (to.HasValue) clauses.Add("timestamp <= @t");
+                        var where = clauses.Count > 0 ? " WHERE " + string.Join(" AND ", clauses) : "";
+                        var bucketSeconds = bucketMinutes * 60;
+
+                        cmd.CommandText = @"SELECT
+                            (CAST(strftime('%s', timestamp) AS INTEGER) / @bs) * @bs as bucket_epoch,
+                            AVG(rtt) as avg_rtt,
+                            COUNT(*) as sample_count,
+                            SUM(CASE WHEN rtt IS NULL THEN 1 ELSE 0 END) as timeout_count,
+                            MIN(rtt) as min_rtt,
+                            MAX(rtt) as max_rtt
+                        FROM ping_log" + where + @"
+                        GROUP BY bucket_epoch
+                        ORDER BY bucket_epoch";
                         if (!string.IsNullOrEmpty(hostname))
                             cmd.Parameters.AddWithValue("@h", hostname);
                         AddDateParams(cmd, from, to);
+                        cmd.Parameters.AddWithValue("@bs", bucketSeconds);
 
-                        var raw = new List<Tuple<DateTime, int?>>();
+                        var epochBase = new DateTime(1970, 1, 1);
+                        double maxAvg = 1;
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
-                                var ts = DateTime.Parse(rdr.GetString(1));
-                                var output = rdr.GetString(2);
-                                int? rtt = null;
-                                var m = RttRegex.Match(output);
-                                if (m.Success)
+                                var bucketEpoch = rdr.GetInt64(0);
+                                var bucketTime = epochBase.AddSeconds(bucketEpoch);
+                                var avgRtt = rdr.IsDBNull(1) ? 0 : rdr.GetDouble(1);
+                                var sampleCount = rdr.GetInt32(2);
+                                var timeoutCount = rdr.GetInt32(3);
+
+                                var bucket = new RttTimeBucket
                                 {
-                                    var val = m.Groups[1].Value;
-                                    rtt = val.StartsWith("<") ? 0 : int.Parse(val);
-                                }
-                                raw.Add(Tuple.Create(ts, rtt));
+                                    BucketTime = bucketTime,
+                                    Label = bucketTime.ToString("MM-dd HH:mm"),
+                                    SampleCount = sampleCount,
+                                    TimeoutCount = timeoutCount,
+                                    AvgRtt = avgRtt,
+                                    MinRtt = rdr.IsDBNull(4) ? 0 : rdr.GetInt32(4),
+                                    MaxRtt = rdr.IsDBNull(5) ? 0 : rdr.GetInt32(5),
+                                };
+                                if (bucket.AvgRtt > maxAvg) maxAvg = bucket.AvgRtt;
+                                buckets.Add(bucket);
                             }
-                        }
-
-                        if (raw.Count == 0) return buckets;
-
-                        var span = raw.Max(r => r.Item1) - raw.Min(r => r.Item1);
-                        if (span.TotalMinutes < bucketMinutes)
-                            bucketMinutes = Math.Max(1, (int)span.TotalMinutes);
-
-                        var grouped = raw
-                            .GroupBy(r => new DateTime(r.Item1.Year, r.Item1.Month, r.Item1.Day, r.Item1.Hour, r.Item1.Minute / bucketMinutes * bucketMinutes, 0))
-                            .OrderBy(g => g.Key)
-                            .ToList();
-
-                        double maxAvg = 1;
-                        foreach (var g in grouped)
-                        {
-                            var rtts = g.Where(x => x.Item2.HasValue).Select(x => x.Item2.Value).ToList();
-                            var bucket = new RttTimeBucket
-                            {
-                                BucketTime = g.Key,
-                                Label = g.Key.ToString("MM-dd HH:mm"),
-                                SampleCount = g.Count(),
-                                TimeoutCount = g.Count(x => !x.Item2.HasValue),
-                                AvgRtt = rtts.Count > 0 ? rtts.Average() : 0,
-                                MinRtt = rtts.Count > 0 ? rtts.Min() : 0,
-                                MaxRtt = rtts.Count > 0 ? rtts.Max() : 0,
-                            };
-                            if (bucket.AvgRtt > maxAvg) maxAvg = bucket.AvgRtt;
-                            buckets.Add(bucket);
                         }
 
                         foreach (var b in buckets)

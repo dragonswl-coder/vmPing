@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -116,19 +117,25 @@ namespace vmPing.UI
                 LoadCurrentTab();
         }
 
-        private void LoadCurrentTab()
+        private bool _isLoading;
+
+        private async void LoadCurrentTab()
         {
             if (_currentHost == null && MainTabs.SelectedIndex != 0 && MainTabs.SelectedIndex != 3) return;
+            if (_isLoading) return;
+
+            _isLoading = true;
             _queryStopwatch = Stopwatch.StartNew();
+            ShowLoading(true);
 
             try
             {
                 switch (MainTabs.SelectedIndex)
                 {
-                    case 0: LoadOverview(); break;
-                    case 1: LoadTrends(); break;
-                    case 2: LoadRecords(); break;
-                    case 3: LoadStatistics(); break;
+                    case 0: await LoadOverview(); break;
+                    case 1: await LoadTrends(); break;
+                    case 2: await LoadRecords(); break;
+                    case 3: await LoadStatistics(); break;
                 }
             }
             catch (Exception ex)
@@ -137,77 +144,88 @@ namespace vmPing.UI
                 ShowGrowl($"查询失败: {ex.Message}", true);
             }
 
+            ShowLoading(false);
             _queryStopwatch.Stop();
             StatusQueryTime.Text = $"● 耗时 {_queryStopwatch.Elapsed.TotalSeconds:F2}s";
+            _isLoading = false;
         }
 
-        private void LoadOverview()
+        private async Task LoadOverview()
         {
             var from = GetFromDate();
             var to = GetToDate();
+            var host = _currentHost;
 
-            var stats = DatabaseService.GetOverviewStatistics(_currentHost, from, to);
+            var stats = await Task.Run(() => DatabaseService.GetOverviewStatistics(host, from, to));
+            var series = await Task.Run(() => DatabaseService.GetRttTimeSeries(host, from, to, 60));
+            var statusChanges = await Task.Run(() => DatabaseService.GetStatusChanges(host, from, to));
+
             CardHostCount.Text = stats.HostCount.ToString();
             CardTotalRecords.Text = stats.TotalRecords.ToString("N0");
             CardAvgRtt.Text = $"{stats.AvgRtt:F0} ms";
             CardLossRate.Text = $"{stats.LossRate:F1}%";
             CardStatusChanges.Text = stats.StatusChangeCount.ToString();
-
             UpdateStatusBar(stats.HostCount, stats.TotalRecords);
-
-            var series = DatabaseService.GetRttTimeSeries(_currentHost, from, to, 60);
             OverviewChart.Model = CreateRttModel(series, 1);
-
-            var statusChanges = DatabaseService.GetStatusChanges(_currentHost, from, to);
             var recent = statusChanges.Take(50).ToList();
             OverviewStatusGrid.ItemsSource = recent;
             OverviewEmptyText.Visibility = recent.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void LoadTrends()
+        private async Task LoadTrends()
         {
             if (_currentHost == null) return;
             var from = GetFromDate();
             var to = GetToDate();
+            var host = _currentHost;
             var bucketIdx = BucketSizeSelector.SelectedIndex;
             if (bucketIdx < 0) bucketIdx = 2;
             var bucketMin = BucketMinutes[bucketIdx];
-
-            var series = DatabaseService.GetRttTimeSeries(_currentHost, from, to, bucketMin);
             var chartType = ChartTypeSelector.SelectedIndex;
-            TrendsChart.Model = CreateRttModel(series, chartType);
 
-            var statusChanges = DatabaseService.GetStatusChanges(_currentHost, from, to);
+            var series = await Task.Run(() => DatabaseService.GetRttTimeSeries(host, from, to, bucketMin));
+            var statusChanges = await Task.Run(() => DatabaseService.GetStatusChanges(host, from, to));
+
+            TrendsChart.Model = CreateRttModel(series, chartType);
             StatusTimelineChart.Model = CreateTimelineModel(statusChanges, from, to);
         }
 
-        private void LoadRecords()
+        private async Task LoadRecords()
         {
             if (_currentHost == null) return;
             _currentPage = 0;
-            LoadRecordsPage();
+            await LoadRecordsPage();
 
             var from = GetFromDate();
             var to = GetToDate();
-            var statusChanges = DatabaseService.GetStatusChanges(_currentHost, from, to);
+            var host = _currentHost;
+            var statusChanges = await Task.Run(() => DatabaseService.GetStatusChanges(host, from, to));
             RecordsStatusGrid.ItemsSource = statusChanges;
         }
 
-        private void LoadRecordsPage()
+        private async Task LoadRecordsPage()
         {
             var from = GetFromDate();
             var to = GetToDate();
-            _totalRecords = DatabaseService.GetPingLogCount(_currentHost, from, to);
+            var host = _currentHost;
             var offset = _currentPage * _pageSize;
-            var logs = DatabaseService.GetPingLogs(_currentHost, from, to, _pageSize, offset);
-            _allRecords = logs;
 
+            var data = await Task.Run(() =>
+            {
+                var count = DatabaseService.GetPingLogCount(host, from, to);
+                var logs = DatabaseService.GetPingLogs(host, from, to, _pageSize, offset);
+                var hostCount = DatabaseService.GetHosts().Count;
+                return new { count, logs, hostCount };
+            });
+
+            _totalRecords = data.count;
+            _allRecords = data.logs;
             ApplySearchFilter();
 
             var totalPages = Math.Max(1, (int)((_totalRecords + _pageSize - 1) / _pageSize));
             PageInfoText.Text = $"{_currentPage + 1} / {totalPages}";
             RecordsCountText.Text = $"共 {_totalRecords:N0} 条记录";
-            UpdateStatusBar(DatabaseService.GetHosts().Count, _totalRecords);
+            UpdateStatusBar(data.hostCount, _totalRecords);
         }
 
         private void ApplySearchFilter()
@@ -220,11 +238,12 @@ namespace vmPing.UI
             RecordsGrid.ItemsSource = filtered.ToList();
         }
 
-        private void LoadStatistics()
+        private async Task LoadStatistics()
         {
             var from = GetFromDate();
             var to = GetToDate();
-            var allStats = DatabaseService.GetAllHostStatistics(from, to);
+
+            var allStats = await Task.Run(() => DatabaseService.GetAllHostStatistics(from, to));
             StatsGrid.ItemsSource = allStats;
 
             var totalPings = allStats.Sum(s => s.TotalPings);
@@ -383,16 +402,16 @@ namespace vmPing.UI
             return model;
         }
 
-        private void BucketSizeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void BucketSizeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!IsLoaded || TrendsChart == null) return;
-            LoadTrends();
+            await LoadTrends();
         }
 
-        private void ChartTypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ChartTypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!IsLoaded || TrendsChart == null) return;
-            LoadTrends();
+            await LoadTrends();
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -400,22 +419,22 @@ namespace vmPing.UI
             ApplySearchFilter();
         }
 
-        private void PrevPageButton_Click(object sender, RoutedEventArgs e)
+        private async void PrevPageButton_Click(object sender, RoutedEventArgs e)
         {
             if (_currentPage > 0)
             {
                 _currentPage--;
-                LoadRecordsPage();
+                await LoadRecordsPage();
             }
         }
 
-        private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        private async void NextPageButton_Click(object sender, RoutedEventArgs e)
         {
             var totalPages = Math.Max(1, (int)((_totalRecords + _pageSize - 1) / _pageSize));
             if (_currentPage < totalPages - 1)
             {
                 _currentPage++;
-                LoadRecordsPage();
+                await LoadRecordsPage();
             }
         }
 
