@@ -163,7 +163,7 @@ namespace vmPing.UI
             CardHostCount.Text = stats.HostCount.ToString();
             CardTotalRecords.Text = stats.TotalRecords.ToString("N0");
             CardAvgRtt.Text = $"{stats.AvgRtt:F0} ms";
-            CardLossRate.Text = $"{stats.LossRate:F1}%";
+            CardLossRate.Text = $"{stats.LossRate:F2}%";
             CardStatusChanges.Text = stats.StatusChangeCount.ToString();
             UpdateStatusBar(stats.HostCount, stats.TotalRecords);
             OverviewChart.Model = CreateRttModel(series, 1);
